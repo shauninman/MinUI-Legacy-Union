@@ -1,6 +1,3 @@
-CROSS_COMPILE := /opt/retrofw-toolchain/bin/mipsel-linux-
-PREFIX=/opt/retrofw-toolchain/mipsel-buildroot-linux-uclibc/sysroot/usr
-
 TARGET=msettings
 
 .PHONY: build

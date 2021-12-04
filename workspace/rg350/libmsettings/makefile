@@ -1,6 +1,3 @@
-CROSS_COMPILE := /opt/gcw0-toolchain/usr/bin/mipsel-linux-
-PREFIX=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot/usr
-
 TARGET=msettings
 
 .PHONY: build

@@ -1,6 +1,3 @@
-CROSS_COMPILE := /opt/trimui-toolchain/bin/arm-buildroot-linux-gnueabi-
-PREFIX=/opt/trimui-toolchain/arm-buildroot-linux-gnueabi/sysroot/usr
-
 TARGET=msettings
 
 .PHONY: build

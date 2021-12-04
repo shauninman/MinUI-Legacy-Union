@@ -1,6 +1,3 @@
-CROSS_COMPILE := /opt/rs90-toolchain/usr/bin/mipsel-linux-
-PREFIX=/opt/rs90-toolchain/mipsel-rs90-linux-musl/sysroot/usr
-
 TARGET=msettings
 
 .PHONY: build
