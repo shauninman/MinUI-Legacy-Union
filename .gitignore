@@ -1,7 +1,13 @@
-.build
-art/
-sdcards/
-notes/
-reference/
-fonts/
-workspace/
+/.build
+build
+*.o
+*.so
+
+# tmp until I can clean everything up
+/art/
+/sdcards/
+/notes/
+/reference/
+/fonts/
+/workspace/*
+!/workspace/shared

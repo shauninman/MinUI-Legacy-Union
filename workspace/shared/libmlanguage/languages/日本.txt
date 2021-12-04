@@ -1,0 +1,12 @@
+; --------------------
+; set CJK to any value 
+; to enable CJK font
+; --------------------
+CJK=1
+
+; ------------
+; button hints
+; ------------
+open=開く
+back=戻る
+sleep=睡眠

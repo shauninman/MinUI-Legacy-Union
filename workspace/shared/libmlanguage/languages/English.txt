@@ -1,0 +1,44 @@
+; --------------------
+; set CJK to any value 
+; to enable CJK font
+; --------------------
+CJK=
+
+; ------------
+; button hints
+; ------------
+open=OPEN
+back=BACK
+sleep=SLEEP
+resume=RESUME
+act=ACT
+continue_=Continue
+insert=Insert
+disc_num=Disc %i
+save=Save
+load=Load
+advanced=Advanced
+exit=Exit Game
+no_preview=No Preview
+empty_slot=Empty Slot
+
+; --------
+; messages
+; --------
+wake=To wake from sleep,
+hold L and R and press
+any other button.
+
+Try it now...
+
+swap=Creating new swap file,
+this could take a minute...
+
+prioritize_compatibility=Prioritize compatibility when playing %s?
+prioritize_performance=Prioritize performance when playing %s?
+
+; --------
+; sections
+; --------
+recents=Recently Played
+settings=Settings
