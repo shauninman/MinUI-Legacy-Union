@@ -6,7 +6,7 @@ The currently in development platforms are Trimui/A66 (where MinUI was born), Op
 
 ### Initial planned emulator support
 
-(Emulators may be omitted from a platform depending on performance or display resolution.)
+Emulators may be omitted from a platform depending on performance or display resolution. Additional emulators may be added in the future, time permitting.
 
 - Game Boy/Game Boy Color
 - Pokémon mini
@@ -17,6 +17,5 @@ The currently in development platforms are Trimui/A66 (where MinUI was born), Op
 
 ### Current requirements for platform consideration
 
-1. firmware must live on nand (eg. Trimui or RS-90) or on a separate SD card (eg. the 350/300/280 family)
+1. firmware must live on either NAND (eg. Trimui or RS-90) or a separate SD card (eg. the 350/300/280 family)
 2. display must be 320x240 (the RS-90's 240x160 being an exception)
-
