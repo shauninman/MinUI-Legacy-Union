@@ -11,3 +11,7 @@ build
 /fonts/
 /workspace/*
 !/workspace/shared
+!/workspace/*/
+/workspace/*/*
+!/workspace/*/keymon
+!/workspace/*/libmsettings
