@@ -1,5 +1,1 @@
-- create submodules for each toolchain
-- toolchain should set
-	CROSS_COMPILE
-	PREFIX
-	PLATFORM? UNION_PLATFORM?
+- 
