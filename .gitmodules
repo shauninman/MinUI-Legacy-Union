@@ -1,0 +1,15 @@
+[submodule "toolchains/retrofw-toolchain"]
+	path = toolchains/retrofw-toolchain
+	url = git@github.com:shauninman/union-retrofw-toolchain.git
+[submodule "toolchains/trimui-toolchain"]
+	path = toolchains/trimui-toolchain
+	url = git@github.com:shauninman/union-trimui-toolchain.git
+[submodule "toolchains/odbeta-toolchain"]
+	path = toolchains/odbeta-toolchain
+	url = git@github.com:shauninman/union-odbeta-toolchain.git
+[submodule "toolchains/rg350-toolchain"]
+	path = toolchains/rg350-toolchain
+	url = git@github.com:shauninman/union-rg350-toolchain.git
+[submodule "toolchains/rs90-toolchain"]
+	path = toolchains/rs90-toolchain
+	url = git@github.com:shauninman/union-rs90-toolchain.git

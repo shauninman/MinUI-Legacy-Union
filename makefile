@@ -4,7 +4,7 @@ HOST_WORKSPACE=$(shell pwd)/workspace
 GUEST_WORKSPACE=/root/workspace
 
 ifeq (,$(PLATFORM))
-$(error please specify PLATFORM, eg. PLATFORM=trimui make)
+$(error please specify PLATFORM, eg. make PLATFORM=trimui)
 endif
 
 ifeq (trimui,$(PLATFORM))
