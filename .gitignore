@@ -2,6 +2,7 @@
 build
 *.o
 *.so
+.DS_Store
 
 # tmp until I can clean everything up
 /art/
@@ -10,8 +11,8 @@ build
 /reference/
 /fonts/
 /workspace/*
-!/workspace/shared
 !/workspace/*/
 /workspace/*/*
+!/workspace/shared/*
 !/workspace/*/keymon
 !/workspace/*/libmsettings
