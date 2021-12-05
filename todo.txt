@@ -1,8 +1,7 @@
 - union-commander
-	- hook up PLATFORM into Makefile
-	- rename GCW0 to RG350
-	- add RetroFW
-	- add RS90? (or not, it's looking more and more likely I'm not going to support this)	
+	- retrofw version is blurry (because of 320x480 screen?)
+	- enable cursor movement in file edit?
+	- there were lots of commits before this: https://github.com/od-contrib/commander/commit/5eb1ae677df5936681e20a1c2ace8aecf9a97fad
 - build an SD card image
 - create the Union.sh launch installer
 	- Trimui doesn't need one, it has .tmp_update on SD
