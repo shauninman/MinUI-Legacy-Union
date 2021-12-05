@@ -1,7 +1,8 @@
-- create union forks of Commander for each platform and put in Tools
-	retrofw + rg350 + odbeta + rs90 https://github.com/od-contrib/commander
-	trimui https://github.com/shauninman/DinguxCommander
-	
+- union-commander
+	- hook up PLATFORM into Makefile
+	- rename GCW0 to RG350
+	- add RetroFW
+	- add RS90? (or not, it's looking more and more likely I'm not going to support this)	
 - build an SD card image
 - create the Union.sh launch installer
 	- Trimui doesn't need one, it has .tmp_update on SD
