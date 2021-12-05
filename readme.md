@@ -18,4 +18,7 @@ Emulators may be omitted from a platform depending on performance or display res
 ### Current requirements for platform consideration
 
 1. firmware must live on either NAND (eg. Trimui or RS-90) or a separate SD card (eg. the 350/300/280 family)
-2. display must be 320x240 (the RS-90's 240x160 being an exception)
+2. display must be 320x240, the RS-90's 240x160 being a regrettable exception
+3. should have a dedicated menu button (eg. Trimui or RG300) or free button that can be repurposed (eg. the power button or L3/R3 on the RG350/280 family), the RS-90 being a regrettable exception
+
+Performance and lack of dedicated menu button might disqualify RS-90 from future Union development.
