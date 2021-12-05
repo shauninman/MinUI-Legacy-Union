@@ -283,6 +283,7 @@ typedef struct Recent {
 	int available;
 } Recent;
 static int hasPak(char* pak_name);
+static int hasEmu(char* emu_name);
 static Recent* Recent_new(char* path) {
 	Recent* self = malloc(sizeof(Recent));
 
@@ -293,7 +294,7 @@ static Recent* Recent_new(char* path) {
 	getEmuName(sd_path, emu_name);
 	
 	self->path = strdup(path);
-	self->available = hasPak(emu_name);
+	self->available = hasEmu(emu_name);
 	return self;
 }
 static void Recent_free(Recent* self) {
@@ -368,12 +369,17 @@ static void addRecent(char* path) {
 
 static int hasPak(char* pak_name) {
 	char pak_path[256];
-	sprintf(pak_path, "%s/%s/launch.sh", kPakPath, pak_name);
+	sprintf(pak_path, kPakPath "/%s.pak/launch.sh", pak_name);
 	return exists(pak_path);
 }
-static int hasAlt(char* pak_name) {
+static int hasEmu(char* emu_name) {
 	char pak_path[256];
-	sprintf(pak_path, "%s/%s/has-alt", kPakPath, pak_name);
+	sprintf(pak_path, kPakPath "/Emus/%s.pak/launch.sh", emu_name);
+	return exists(pak_path);
+}
+static int hasAlt(char* emu_name) {
+	char pak_path[256];
+	sprintf(pak_path, kPakPath "/Emus/%s.pak/has-alt", emu_name);
 	return exists(pak_path);
 }
 
@@ -503,7 +509,7 @@ static int hasRoms(char* dir_name) {
 	getEmuName(dir_name, emu_name);
 	
 	// check for emu pak
-	if (!hasPak(emu_name)) return has;
+	if (!hasEmu(emu_name)) return has;
 	
 	// check for at least one non-hidden file (we're going to assume it's a rom)
 	sprintf(rom_path, "%s/%s/", kRomPath, dir_name);
@@ -553,7 +559,7 @@ static Array* getRoot(void) {
 		closedir(dh);
 	}
 	
-	// TODO: Tools or Settings?
+	Array_push(entries, Entry_new(kPakPath "/Tools", kEntryDir));
 	
 	return entries;
 }
@@ -565,8 +571,8 @@ static Array* getRecents(void) {
 		
 		char sd_path[256];
 		sprintf(sd_path, "%s%s", kRootPath, recent->path);
-		// int type = suffixMatch(".pak", path) ? kEntryPak : kEntryRom;
-		Array_push(entries, Entry_new(sd_path, kEntryRom));
+		int type = suffixMatch(".pak", sd_path) ? kEntryPak : kEntryRom;
+		Array_push(entries, Entry_new(sd_path, type));
 	}
 	return entries;
 }
@@ -623,12 +629,13 @@ static Array* getEntries(char* path){
 			int is_dir = dp->d_type==DT_DIR;
 			int type;
 			if (is_dir) {
-				// if (match_suffix(".pak", dp->d_name)) {
-				// 	type = kEntryPak;
-				// }
-				// else {
+				// TODO: this should make sure launch.sh exists
+				if (suffixMatch(".pak", dp->d_name)) {
+					type = kEntryPak;
+				}
+				else {
 					type = kEntryDir;
-				// }
+				}
 			}
 			else {
 				type = kEntryRom;
@@ -690,8 +697,8 @@ static void readyResumeRecent(void) {
 		
 		char sd_path[256];
 		sprintf(sd_path, "%s%s", kRootPath, recent->path);
-		// int type = suffixMatch(".pak", path) ? kEntryPak : kEntryRom;
-		readyResumePath(sd_path, kEntryRom);
+		int type = suffixMatch(".pak", sd_path) ? kEntryPak : kEntryRom;
+		readyResumePath(sd_path, type);
 		break;
 	}
 } 
@@ -719,7 +726,7 @@ static void openRom(char* path, char* last) {
 	getEmuName(path, emu_name);
 	
 	char cmd[256];
-	sprintf(cmd, "\"%s/%s/launch.sh\" \"%s\"", kPakPath, emu_name, path);
+	sprintf(cmd, "\"%s/Emus/%s.pak/launch.sh\" \"%s\"", kPakPath, emu_name, path);
 
 	if (should_resume) {
 		char slot[16];

@@ -6,6 +6,9 @@ TARGET=mmenu
 ###########################################################
 
 ifeq (,$(PLATFORM))
+PLATFORM=$(UNION_PLATFORM)
+endif
+ifeq (,$(PLATFORM))
 $(error please specify PLATFORM, eg. make PLATFORM=trimui)
 endif
 ifeq (,$(CROSS_COMPILE))

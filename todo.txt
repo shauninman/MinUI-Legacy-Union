@@ -1,1 +1,8 @@
-- 
+- create union forks of Commander for each platform and put in Tools
+- build an SD card image
+- create the Union.sh launch installer
+	- Trimui doesn't need one, it has .tmp_update on SD
+	- RG300 has /home/retrofw
+	- I think RS-90 (and regular odbeta?) can use /etc/hostname?
+	- stock od by process of elimination?
+- create union forks of each emulator and apply my changes
