@@ -1,7 +1,20 @@
-- union-commander
-	- retrofw version is blurry (because of 320x480 screen?)
-	- enable cursor movement in file edit?
-	- there were lots of commits before this: https://github.com/od-contrib/commander/commit/5eb1ae677df5936681e20a1c2ace8aecf9a97fad
+- separate platform and resolution:
+	determine platforms by checking for the presence of known folders or files or the contents of files?
+		Trimui
+			folder: /usr/trimui
+		Miyoo Mini
+			folder: /customer (speculation)
+		OpenDingux
+			file: /proc/version
+				match: -dingux+ (stock)
+				match: -opendingux (beta)
+	determine resolution by parsing fb0/modes?
+		/sys/class/graphics/fb0/modes
+			U:<width>x<height>p-<number>
+
+- add Trimui's SDL
+- package up Trimui's toolchain folder and upload it to github for safekeeping?
+	- maybe do for all union toolchains?
 - build an SD card image
 - create the Union.sh launch installer
 	- Trimui doesn't need one, it has .tmp_update on SD
@@ -9,3 +22,7 @@
 	- I think RS-90 (and regular odbeta?) can use /etc/hostname?
 	- stock od by process of elimination?
 - create union forks of each emulator and apply my changes
+
+- drop RS-90 support?
+- drop retrofw/RG300 support?
+	- seems to be in a state of unstable upheaval
