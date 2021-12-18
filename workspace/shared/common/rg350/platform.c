@@ -1,4 +1,4 @@
-// rg350/platform.c
+// od/platform.c
 #include <stdio.h>
 #include <stdlib.h>
 #include "platform.h"

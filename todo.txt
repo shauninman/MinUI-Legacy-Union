@@ -1,3 +1,11 @@
+NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WIDTH, and SCREEN_HEIGHT are really determined at runtime!
+
+- tweak text alignment per platform
+- update toolchains to use PLATFORM_OD instead of PLATFORM_RG350?
+- figure out how to handle supporting multiple resolutions on the same platform in emulators
+	- retroarch is getting more and more appealing...port picoarch?
+
+
 - separate platform and resolution:
 	determine platforms by checking for the presence of known folders or files or the contents of files?
 		Trimui
@@ -22,7 +30,13 @@
 	- I think RS-90 (and regular odbeta?) can use /etc/hostname?
 	- stock od by process of elimination?
 - create union forks of each emulator and apply my changes
+- remove Resume from main menu (should only apply to games)
+- make Union/MinUI logo a toggle?
+- add RGB10 Max support (854x480)
+	same vertical alignments as 640x480
+	just make sure edge pinning is setup correctly for horizontal alignments
 
 - drop RS-90 support?
+	- yes, 300 or mini will replace that form factor
 - drop retrofw/RG300 support?
-	- seems to be in a state of unstable upheaval
+	- yes, seems to be in a state of unstable upheaval

@@ -18,6 +18,331 @@
 // NOTE: constants can be CONSTANT_NAME or kConstantName, not sure what distinguishes the two types...
 // NOTE: CONSTANT_NAME matches C and feels lower level, kConstantName is recognized by my IDE's C syntax coloring :sweat_smile:
 
+UnionPaths Paths;
+UnionScreen Screen = {
+	.width	= 320,
+	.height	= 240,
+	
+	.font = {
+		.small_size		= 12,
+		.medium_size	= 14,
+		.large_size 	= 16,
+		.small_oy		= 4,
+		.medium_oy 		= 5,
+		.large_oy 		= 5,
+		
+		.shadow = {
+			.ox = 1,
+			.oy = 2,
+		},
+	},
+	
+	.button = {
+		.size = 22,
+		.text = {
+			.oy		= -1,
+			.ox_A	= 0,
+			.ox_B	= 1,
+			.ox_X	= 1,
+			.ox_Y	= 1,
+			.ox_R	= 1, // = ox_X
+		},
+	},
+	
+	.pill = {
+		.pad_width	= 6,
+		.text_oy	= 2,
+	},
+	
+	.hint = {
+		.ox			= 3,
+		.text_oy	= 1,
+	},
+	
+	.settings = {
+		.width	= 146,
+		.height	= 26,
+		.icon = {
+			.ox = 6,
+			.oy = 4,
+		},
+		.bar = {
+			.ox = 30,
+			.oy = 11,
+		},
+	},
+	
+	.buttons = {
+		.top	= 211,
+		.left	= 8,
+		.right	= 10,
+		.gutter	= 8,
+	},
+	
+	.main = {
+		.settings = {
+			.x = 171,
+			.y = 4,
+		},
+		.battery = {
+			.x = 300,
+			.y = 9,
+		},
+		.rule = {
+			.top_y		= 35,
+			.bottom_y	= 203,
+		},
+		
+		.logo = {
+			.x = 10,
+			.y = 10,
+		},
+		.list = {
+			.row_count	= 5,
+			.y			= 38,
+			.ox			= 16,
+			.oy			= 4,
+			.row_height	= 32,
+			.alt_ox		= 0, // from right
+			.alt_oy		= 0,
+		},
+	},
+	
+	.menu = {
+		.settings = {
+			.x = 87,
+			.y = 37,
+		},
+		.battery = {
+			.x = 303,
+			.y = 5,
+		},
+		.rule = {
+			.top_y		= 27,
+			.bottom_y	= 211,
+		},
+		
+		.buttons = {
+			.top = 217,
+		},
+		.slots = {
+			.x	= 200,
+			.y	= 197,
+			.ox	= 8,
+		},
+		.preview = {
+			.x		= 148,
+			.y		= 71,
+			.width	= 166,
+			.height	= 135,
+			.inset	= 3,
+		},
+		
+		.title = {
+			.x 		= 24,
+			.y 		= 3,
+			.width	= 272,
+		},
+		.window = {
+			.x		= 6,
+			.y		= 71,
+			.width	= 140,
+			.height	= 135,
+		},
+		.list = {
+			.x				=  14,
+			.y				=  76,
+			.oy				=  0,
+			.line_height	=  25,
+			.row_height		=  27,
+		},
+		.arrow = {
+			.ox = 6, // from right
+			.oy = 7,
+		},
+
+		.bar_height = 30,
+	},
+	
+	.body = {
+		.line_height = 24, // paired with Screen.font.large_size
+	},
+};
+
+void Union_init(void) {
+	// TODO: add error checking
+	Screen.width = strtol(getenv("SCREEN_WIDTH"),NULL,10);
+	Screen.height = strtol(getenv("SCREEN_HEIGHT"),NULL,10);
+
+	sprintf(Paths.rootDir, "%s", getenv("SDCARD_PATH"));
+	sprintf(Paths.systemName, "%s", getenv("SYSTEM_NAME"));
+	sprintf(Paths.fauxRecentDir, "%s/Recently Played", Paths.rootDir);
+
+	sprintf(Paths.fauxRecentDir, "%s/Recently Played", Paths.rootDir);
+	sprintf(Paths.systemDir, "%s/.system/%s", Paths.rootDir, Paths.systemName);
+	sprintf(Paths.userdataDir, "%s/.userdata/%s", Paths.rootDir, Paths.systemName);
+	sprintf(Paths.sharedSystemDir, "%s/.system/shared", Paths.rootDir);
+	sprintf(Paths.sharedRecent, "%s/.userdata/shared/.minui/recent.txt", Paths.rootDir);
+	sprintf(Paths.romsDir, "%s/Roms", Paths.rootDir);
+	sprintf(Paths.paksDir, "%s/paks", Paths.systemDir);
+	
+	// TODO: force landscape?
+	// TODO: handle 480 utilized as 240?
+	if (Screen.height==480) {
+		
+		// TODO: this is a quick and dirty hack...
+		Screen = (UnionScreen){
+			.width	= Screen.width,
+			.height	= Screen.height,
+	
+			.font = {
+				.small_size		= 12*2,
+				.medium_size	= 14*2,
+				.large_size 	= 16*2,
+				.small_oy		= 4*2,
+				.medium_oy 		= 5*2,
+				.large_oy 		= 5*2,
+		
+				.shadow = {
+					.ox = 1*2,
+					.oy = 2*2,
+				},
+			},
+	
+			.button = {
+				.size = 22*2,
+				.text = {
+					.oy		= -1*2,
+					.ox_A	= 0*2,
+					.ox_B	= 1*2,
+					.ox_X	= 1*2,
+					.ox_Y	= 1*2,
+					.ox_R	= 1*2, // = ox_X
+				},
+			},
+	
+			.pill = {
+				.pad_width	= 6*2,
+				.text_oy	= 2*2,
+			},
+	
+			.hint = {
+				.ox			= 3*2,
+				.text_oy	= 1*2,
+			},
+	
+			.settings = {
+				.width	= 146*2,
+				.height	= 26*2,
+				.icon = {
+					.ox = 6*2,
+					.oy = 4*2,
+				},
+				.bar = {
+					.ox = 30*2,
+					.oy = 11*2,
+				},
+			},
+	
+			.buttons = {
+				.top	= 211*2,
+				.left	= 8*2,
+				.right	= 10*2,
+				.gutter	= 8*2,
+			},
+	
+			.main = {
+				.settings = {
+					.x = 171*2,
+					.y = 4*2,
+				},
+				.battery = {
+					.x = 300*2,
+					.y = 9*2,
+				},
+				.rule = {
+					.top_y		= 35*2,
+					.bottom_y	= 203*2,
+				},
+		
+				.logo = {
+					.x = 10*2,
+					.y = 10*2,
+				},
+				.list = {
+					.row_count	= 5*2,
+					.y			= 38*2,
+					.ox			= 16*2,
+					.oy			= 4*2,
+					.row_height	= 32*2,
+					.alt_ox		= 0, // from right
+					.alt_oy		= 0,
+				},
+			},
+	
+			.menu = {
+				.settings = {
+					.x = 87*2,
+					.y = 37*2,
+				},
+				.battery = {
+					.x = 303*2,
+					.y = 5*2,
+				},
+				.rule = {
+					.top_y		= 27*2,
+					.bottom_y	= 211*2,
+				},
+		
+				.buttons = {
+					.top = 217*2,
+				},
+				.slots = {
+					.x	= 200*2,
+					.y	= 197*2,
+					.ox	= 8*2,
+				},
+				.preview = {
+					.x		= 148*2,
+					.y		= 71*2,
+					.width	= 166*2,
+					.height	= 135*2,
+					.inset	= 3*2,
+				},
+		
+				.title = {
+					.x 		= 24*2,
+					.y 		= 3*2,
+					.width	= 272*2,
+				},
+				.window = {
+					.x		= 6*2,
+					.y		= 71*2,
+					.width	= 140*2,
+					.height	= 135*2,
+				},
+				.list = {
+					.x				=  14*2,
+					.y				=  76*2,
+					.oy				=  0*2,
+					.line_height	=  25*2,
+					.row_height		=  27*2,
+				},
+				.arrow = {
+					.ox = 6*2, // from right
+					.oy = 7*2,
+				},
+
+				.bar_height = 30*2,
+			},
+	
+			.body = {
+				.line_height = 24*2, // paired with Screen.font.large_size
+			},
+		};
+	}
+}
+
 ///////////////////////////////////////
 
 struct ButtonState {
@@ -150,8 +475,8 @@ void getEmuName(const char* in_name, char* out_name) {
 	tmp = out_name;
 	
 	// extract just the Roms folder name if necessary
-	if (prefixMatch(kRomPath, tmp)) {
-		tmp += strlen(kRomPath) + 1;
+	if (prefixMatch(Paths.romsDir, tmp)) {
+		tmp += strlen(Paths.romsDir) + 1;
 		char* tmp2 = strchr(tmp, '/');
 		if (tmp2) tmp2[0] = '\0';
 	}
@@ -246,11 +571,14 @@ static SDL_Color shadow25 = {SHADOW25_TRIAD};
 static SDL_Color shadow50 = {SHADOW50_TRIAD};
 
 static SDL_Surface* battery[6];
-void GFX_init(char* font_path) {
+void GFX_init(int useCJK) {
+	char font_path[256];
+	sprintf(font_path, "%s/fonts/%s", Paths.sharedSystemDir, useCJK?"rounded-mplus-1c-heavy.ttf":"BPreplayBold-unhinted.otf");
+	
 	TTF_Init();
-	font_s = TTF_OpenFont(font_path, FONT_S);
-	font_m = TTF_OpenFont(font_path, FONT_M);
-	font_l = TTF_OpenFont(font_path, FONT_L);
+	font_s = TTF_OpenFont(font_path, Screen.font.small_size);
+	font_m = TTF_OpenFont(font_path, Screen.font.medium_size);
+	font_l = TTF_OpenFont(font_path, Screen.font.large_size);
 	
 	if (!font_s || !font_m || !font_l) printf("TTF_OpenFont: %s\n", TTF_GetError());
 
@@ -282,7 +610,7 @@ void GFX_ready(void) {
 }
 SDL_Surface* GFX_loadImage(char* path) {
 	static char full_path[256];
-	sprintf(full_path, "%s/%s", kImagePath, path);
+	sprintf(full_path, "%s/images/%ix%i/%s", Paths.sharedSystemDir, Screen.width,Screen.height, path);
 	
 	SDL_Surface* image = IMG_Load(full_path);
 	if (!image) printf("IMG_Load: %s\n", IMG_GetError());
@@ -329,17 +657,17 @@ int GFX_blitPill(SDL_Surface* surface, char* btxt, char* htxt, int x, int y) {
 	SDL_Surface* button_text = TTF_RenderUTF8_Blended(font_s, btxt, bronze);
 	SDL_Surface* hint_text = TTF_RenderUTF8_Blended(font_m, htxt, white);
 
-	int pill_width = PILL_PAD + button_text->w + PILL_PAD;
-	int total_width = pill_width + HINT_OX + hint_text->w;
-	if (x<0) x += SCREEN_WIDTH - total_width;
+	int pill_width = Screen.pill.pad_width + button_text->w + Screen.pill.pad_width;
+	int total_width = pill_width + Screen.hint.ox + hint_text->w;
+	if (x<0) x += Screen.width - total_width;
 
-	int hw = BUTTON_SIZE/2;
+	int hw = Screen.button.size/2;
 	int fill_width = pill_width - hw - hw;
-	SDL_BlitSurface(button, &(SDL_Rect){0,0,hw,BUTTON_SIZE}, surface, &(SDL_Rect){x,y});
-	SDL_FillRect(surface, &(SDL_Rect){x+hw,y,fill_width,BUTTON_SIZE}, SDL_MapRGB(button->format, WHITE_TRIAD));
-	SDL_BlitSurface(button, &(SDL_Rect){hw,0,hw,BUTTON_SIZE}, surface, &(SDL_Rect){x+hw+fill_width,y});
-	SDL_BlitSurface(button_text, NULL, surface, &(SDL_Rect){x+PILL_PAD,y+PILL_TEXT_OY});
-	SDL_BlitSurface(hint_text, NULL, surface, &(SDL_Rect){x+pill_width+HINT_OX,y+HINT_TEXT_OY});
+	SDL_BlitSurface(button, &(SDL_Rect){0,0,hw,Screen.button.size}, surface, &(SDL_Rect){x,y});
+	SDL_FillRect(surface, &(SDL_Rect){x+hw,y,fill_width,Screen.button.size}, SDL_MapRGB(button->format, WHITE_TRIAD));
+	SDL_BlitSurface(button, &(SDL_Rect){hw,0,hw,Screen.button.size}, surface, &(SDL_Rect){x+hw+fill_width,y});
+	SDL_BlitSurface(button_text, NULL, surface, &(SDL_Rect){x+Screen.pill.pad_width,y+Screen.pill.text_oy});
+	SDL_BlitSurface(hint_text, NULL, surface, &(SDL_Rect){x+pill_width+Screen.hint.ox,y+Screen.hint.text_oy});
 	SDL_FreeSurface(button_text);
 	SDL_FreeSurface(hint_text);
 	return total_width;
@@ -348,52 +676,52 @@ int GFX_blitButton(SDL_Surface* surface, char* btxt, char* htxt, int x, int y, i
 	SDL_Surface* button_text = TTF_RenderUTF8_Blended(font_l, btxt, bronze);
 	SDL_Surface* hint_text = TTF_RenderUTF8_Blended(font_m, htxt, white);
 
-	int total_width = BUTTON_SIZE + HINT_OX + hint_text->w;
-	if (x<0) x += SCREEN_WIDTH - total_width;
+	int total_width = Screen.button.size + Screen.hint.ox + hint_text->w;
+	if (x<0) x += Screen.width - total_width;
 
-	int button_text_ox = (BUTTON_SIZE - button_text->w) / 2 + bx;
+	int button_text_ox = (Screen.button.size - button_text->w) / 2 + bx;
 	SDL_BlitSurface(button, NULL, surface, &(SDL_Rect){x,y});
-	SDL_BlitSurface(button_text, NULL, surface, &(SDL_Rect){x+button_text_ox,y+BUTTON_TEXT_OY});
-	SDL_BlitSurface(hint_text, NULL, surface, &(SDL_Rect){x+BUTTON_SIZE+HINT_OX,y+HINT_TEXT_OY});
+	SDL_BlitSurface(button_text, NULL, surface, &(SDL_Rect){x+button_text_ox,y+Screen.button.text.oy});
+	SDL_BlitSurface(hint_text, NULL, surface, &(SDL_Rect){x+Screen.button.size+Screen.hint.ox,y+Screen.hint.text_oy});
 	SDL_FreeSurface(button_text);
 	SDL_FreeSurface(hint_text);
 	return total_width;
 }
 void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, int conflict, int row, int selected_row, int has_alt, int use_alt) {
-	int max_width = SCREEN_WIDTH - (2 * LIST_OX);
+	int max_width = Screen.width - (2 * Screen.main.list.ox);
 	SDL_Surface* text;
 	char* fullname = strrchr(path, '/')+1;
 	if (row==selected_row) {
 		char* display_name = conflict ? fullname : name;
 
 		// bar
-		SDL_FillRect(surface, &(SDL_Rect){0,LIST_Y+(row*LIST_ROW_HEIGHT),SCREEN_WIDTH,LIST_ROW_HEIGHT}, SDL_MapRGB(surface->format, GOLD_TRIAD));
+		SDL_FillRect(surface, &(SDL_Rect){0,Screen.main.list.y+(row*Screen.main.list.row_height),Screen.width,Screen.main.list.row_height}, SDL_MapRGB(surface->format, GOLD_TRIAD));
 		
 		// shadow
 		text = TTF_RenderUTF8_Blended(font_l, display_name, shadow50);
 		
 		// if (text->w>max_width) needs_scrolling = 1; // TODO: restore
-		SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){LIST_OX+SHADOW_OX,LIST_Y+(row*LIST_ROW_HEIGHT)+LIST_OY+SHADOW_OY});
+		SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){Screen.main.list.ox+Screen.font.shadow.ox,Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.oy+Screen.font.shadow.oy});
 		SDL_FreeSurface(text);
 		
 		text = TTF_RenderUTF8_Blended(font_l, display_name, white);
-		SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){LIST_OX,LIST_Y+(row*LIST_ROW_HEIGHT)+LIST_OY});
+		SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){Screen.main.list.ox,Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.oy});
 		SDL_FreeSurface(text);
 		
 		if (has_alt) {
 			// TODO: tmp
-			SDL_BlitSurface(use_alt ? alt_enabled : alt_disabled, NULL, surface, &(SDL_Rect){SCREEN_WIDTH-LIST_ALT_OX, LIST_Y+(row*LIST_ROW_HEIGHT)+LIST_ALT_OY});
+			SDL_BlitSurface(use_alt ? alt_enabled : alt_disabled, NULL, surface, &(SDL_Rect){Screen.width-Screen.main.list.alt_ox, Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.alt_oy});
 		}
 	}
 	else {
 		if (conflict) {
 			text = TTF_RenderUTF8_Blended(font_l, fullname, gray);
-			SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){LIST_OX,LIST_Y+(row*LIST_ROW_HEIGHT)+LIST_OY});
+			SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){Screen.main.list.ox,Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.oy});
 			SDL_FreeSurface(text);
 		}
 	
 		text = TTF_RenderUTF8_Blended(font_l, name, white);
-		SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){LIST_OX,LIST_Y+(row*LIST_ROW_HEIGHT)+LIST_OY});
+		SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){Screen.main.list.ox,Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.oy});
 		SDL_FreeSurface(text);
 	}
 }
@@ -428,7 +756,7 @@ void GFX_blitBodyCopy(SDL_Surface* surface, char* str, int ox, int oy, int width
 		rows[row_count++] = tmp+1;
 	}
 	
-	int rendered_height = TEXTBOX_LINE_HEIGHT * row_count;
+	int rendered_height = Screen.body.line_height * row_count;
 	int y = oy;
 	y += (height - rendered_height) / 2;
 	
@@ -454,7 +782,7 @@ void GFX_blitBodyCopy(SDL_Surface* surface, char* str, int ox, int oy, int width
 			SDL_FreeSurface(text);
 		}
 		// printf("%i [%s]\n",i,line);
-		y += TEXTBOX_LINE_HEIGHT;
+		y += Screen.body.line_height;
 	}
 }
 int GFX_blitText(SDL_Surface* surface, char* str, int size, int x, int y, int width, int color, int has_shadow) {
@@ -462,15 +790,15 @@ int GFX_blitText(SDL_Surface* surface, char* str, int size, int x, int y, int wi
 	SDL_Surface* text;
 	
 	TTF_Font* font = size==0?font_s:(size==1?font_m:font_l);
-	int oy = size=0?FONT_S_OY:(size==1?FONT_M_OY:FONT_L_OY);
-	text = TTF_RenderUTF8_Blended(font, str, has_shadow?(x==MENU_LIST_X?shadow25:shadow50):(color?gold:white));
+	int oy = size=0?Screen.font.small_oy:(size==1?Screen.font.medium_oy:Screen.font.large_oy);
+	text = TTF_RenderUTF8_Blended(font, str, has_shadow?(x==Screen.menu.list.x?shadow25:shadow50):(color?gold:white));
 	int w = text->w;
 	
 	if (width>0) x += (width - w) / 2;
 	else if (width<0) x += width - w;
 	
 	if (has_shadow) {
-		SDL_BlitSurface(text, NULL, surface, &(SDL_Rect){x+SHADOW_OX,y+SHADOW_OY}); 
+		SDL_BlitSurface(text, NULL, surface, &(SDL_Rect){x+Screen.font.shadow.ox,y+Screen.font.shadow.oy}); 
 		SDL_FreeSurface(text);
 		text = TTF_RenderUTF8_Blended(font, str, color?gold:white);
 	}
@@ -492,11 +820,11 @@ void GFX_blitBattery(SDL_Surface* surface, int x, int y) {
 	SDL_BlitSurface(battery[charge], NULL, surface, &(SDL_Rect){x,y});
 }
 void GFX_blitSettings(SDL_Surface* surface, int x, int y, int icon, int value, int min_value, int max_value) {
-	if (x==MENU_SETTINGS_X) GFX_blitWindow(surface, x,y,SETTINGS_WIDTH,SETTINGS_HEIGHT, 0);
-	SDL_BlitSurface(icon==0?settings_brightness:(icon==1?settings_volume:settings_mute), NULL, surface, &(SDL_Rect){x+SETTINGS_ICON_OX,y+SETTINGS_ICON_OY});
-	SDL_BlitSurface(settings_bar_empty, NULL, surface, &(SDL_Rect){x+SETTINGS_BAR_OX,y+SETTINGS_BAR_OY});
-	int w = SETTINGS_BAR_WIDTH * ((float)(value-min_value) / (max_value-min_value));
-	SDL_BlitSurface(settings_bar_full, &(SDL_Rect){0,0,w,4}, surface, &(SDL_Rect){x+SETTINGS_BAR_OX,y+SETTINGS_BAR_OY,w,4});
+	if (x==Screen.menu.settings.x) GFX_blitWindow(surface, x,y,Screen.settings.width,Screen.settings.height, 0);
+	SDL_BlitSurface(icon==0?settings_brightness:(icon==1?settings_volume:settings_mute), NULL, surface, &(SDL_Rect){x+Screen.settings.icon.ox,y+Screen.settings.icon.oy});
+	SDL_BlitSurface(settings_bar_empty, NULL, surface, &(SDL_Rect){x+Screen.settings.bar.ox,y+Screen.settings.bar.oy});
+	int w = settings_bar_full->w * ((float)(value-min_value) / (max_value-min_value));
+	SDL_BlitSurface(settings_bar_full, &(SDL_Rect){0,0,w,4}, surface, &(SDL_Rect){x+Screen.settings.bar.ox,y+Screen.settings.bar.oy,w,4});
 }
 
 ///////////////////////////////////////

@@ -241,10 +241,10 @@ static Directory* Directory_new(char* path, int selected) {
 	Directory* self = malloc(sizeof(Directory));
 	self->path = strdup(path);
 	self->name = strdup(display_name);
-	if (exactMatch(path, kRootPath)) {
+	if (exactMatch(path, Paths.rootDir)) {
 		self->entries = getRoot();
 	}
-	else if (exactMatch(path, kRecentlyPlayedPath)) {
+	else if (exactMatch(path, Paths.fauxRecentDir)) {
 		self->entries = getRecents();
 	}
 	else if (suffixMatch(".m3u", path)) {
@@ -279,7 +279,7 @@ static void DirectoryArray_free(Array* self) {
 ///////////////////////////////////////
 
 typedef struct Recent {
-	char* path; // NOTE: this is without the kRootPath prefix!
+	char* path; // NOTE: this is without the Paths.rootDir prefix!
 	int available;
 } Recent;
 static int hasPak(char* pak_name);
@@ -288,7 +288,7 @@ static Recent* Recent_new(char* path) {
 	Recent* self = malloc(sizeof(Recent));
 
 	char sd_path[256]; // only need to get emu name
-	sprintf(sd_path, "%s%s", kRootPath, path);
+	sprintf(sd_path, "%s%s", Paths.rootDir, path);
 
 	char emu_name[256];
 	getEmuName(sd_path, emu_name);
@@ -338,7 +338,7 @@ static int restore_end = 0;
 
 #define kMaxRecents 60 // a multiple of all menu rows
 static void saveRecents(void) {
-	FILE* file = fopen(kSharedUserdataPath "/.minui/recent.txt", "w");
+	FILE* file = fopen(Paths.sharedRecent, "w");
 	if (file) {
 		for (int i=0; i<recents->count; i++) {
 			Recent* recent = recents->items[i];
@@ -349,7 +349,7 @@ static void saveRecents(void) {
 	}
 }
 static void addRecent(char* path) {
-	path += strlen(kRootPath); // makes paths platform agnostic
+	path += strlen(Paths.rootDir); // makes paths platform agnostic
 	int id = RecentArray_indexOf(recents, path);
 	if (id==-1) { // add
 		while (recents->count>=kMaxRecents) {
@@ -369,17 +369,17 @@ static void addRecent(char* path) {
 
 static int hasPak(char* pak_name) {
 	char pak_path[256];
-	sprintf(pak_path, kPakPath "/%s.pak/launch.sh", pak_name);
+	sprintf(pak_path, "%s/%s.pak/launch.sh", Paths.paksDir, pak_name);
 	return exists(pak_path);
 }
 static int hasEmu(char* emu_name) {
 	char pak_path[256];
-	sprintf(pak_path, kPakPath "/Emus/%s.pak/launch.sh", emu_name);
+	sprintf(pak_path, "%s/Emus/%s.pak/launch.sh", Paths.paksDir, emu_name);
 	return exists(pak_path);
 }
 static int hasAlt(char* emu_name) {
 	char pak_path[256];
-	sprintf(pak_path, kPakPath "/Emus/%s.pak/has-alt", emu_name);
+	sprintf(pak_path, "%s/Emus/%s.pak/has-alt", Paths.paksDir, emu_name);
 	return exists(pak_path);
 }
 
@@ -409,7 +409,7 @@ static int Entry_useAlt(Entry* self) {
 		if (tmp) strcpy(rom_name, tmp+1);
 		
 		char use_alt[256];
-		sprintf(use_alt, "%s/.mmenu/%s/%s.use-alt", kUserdataPath, emu_name, rom_name);
+		sprintf(use_alt, "%s/.mmenu/%s/%s.use-alt", Paths.userdataDir, emu_name, rom_name);
 		
 		self->use_alt = exists(use_alt);
 	}
@@ -428,7 +428,7 @@ static int Entry_toggleAlt(Entry* self) {
 	if (tmp) strcpy(rom_name, tmp+1);
 	
 	char use_alt_path[256];
-	sprintf(use_alt_path, "%s/.mmenu/%s/%s.use-alt", kUserdataPath, emu_name, rom_name);
+	sprintf(use_alt_path, "%s/.mmenu/%s/%s.use-alt", Paths.userdataDir, emu_name, rom_name);
 	
 	if (self->use_alt) close(open(use_alt_path, O_RDWR|O_CREAT, 0777)); // basically touch
 	else unlink(use_alt_path);
@@ -457,7 +457,7 @@ static int hasRecents(void) {
 		unlink(kChangeDiscPath);
 	}
 	
-	FILE* file = fopen(kSharedUserdataPath "/.minui/recent.txt", "r"); // newest at top
+	FILE* file = fopen(Paths.sharedRecent, "r"); // newest at top
 	if (file) {
 		char line[256];
 		while (fgets(line,256,file)!=NULL) {
@@ -466,7 +466,7 @@ static int hasRecents(void) {
 			if (strlen(line)==0) continue; // skip empty lines
 			
 			char sd_path[256];
-			sprintf(sd_path, "%s%s", kRootPath, line);
+			sprintf(sd_path, "%s%s", Paths.rootDir, line);
 			if (exists(sd_path)) {
 				if (recents->count<kMaxRecents) {
 					if (suffixMatch(".cue", line)) {
@@ -512,7 +512,7 @@ static int hasRoms(char* dir_name) {
 	if (!hasEmu(emu_name)) return has;
 	
 	// check for at least one non-hidden file (we're going to assume it's a rom)
-	sprintf(rom_path, "%s/%s/", kRomPath, dir_name);
+	sprintf(rom_path, "%s/%s/", Paths.romsDir, dir_name);
 	DIR *dh = opendir(rom_path);
 	if (dh!=NULL) {
 		struct dirent *dp;
@@ -533,14 +533,14 @@ static Array* getRoot(void) {
 	
 	int has_recents = hasRecents();
 	
-	if (has_recents) Array_push(entries, Entry_new(kRecentlyPlayedPath, kEntryDir));
+	if (has_recents) Array_push(entries, Entry_new(Paths.fauxRecentDir, kEntryDir));
 	
-	DIR *dh = opendir(kRomPath);
+	DIR *dh = opendir(Paths.romsDir);
 	if (dh!=NULL) {
 		struct dirent *dp;
 		char* tmp;
 		char full_path[256];
-		sprintf(full_path, "%s/", kRomPath);
+		sprintf(full_path, "%s/", Paths.romsDir);
 		tmp = full_path + strlen(full_path);
 		Array* emus = Array_new();
 		while((dp = readdir(dh)) != NULL) {
@@ -559,7 +559,9 @@ static Array* getRoot(void) {
 		closedir(dh);
 	}
 	
-	Array_push(entries, Entry_new(kPakPath "/Tools", kEntryDir));
+	char tools_path[256];
+	sprintf(tools_path, "%s/Tools", Paths.paksDir);
+	Array_push(entries, Entry_new(tools_path, kEntryDir));
 	
 	return entries;
 }
@@ -570,7 +572,7 @@ static Array* getRecents(void) {
 		if (!recent->available) continue;
 		
 		char sd_path[256];
-		sprintf(sd_path, "%s%s", kRootPath, recent->path);
+		sprintf(sd_path, "%s%s", Paths.rootDir, recent->path);
 		int type = suffixMatch(".pak", sd_path) ? kEntryPak : kEntryRom;
 		Array_push(entries, Entry_new(sd_path, type));
 	}
@@ -578,7 +580,7 @@ static Array* getRecents(void) {
 }
 static Array* getDiscs(char* path){
 	
-	// TODO: does path have kRootPath prefix?
+	// TODO: does path have Paths.rootDir prefix?
 	
 	Array* entries = Array_new();
 	
@@ -651,7 +653,9 @@ static Array* getEntries(char* path){
 ///////////////////////////////////////
 
 static void queueNext(char* cmd) {
-	putFile(kUserdataPath "/next.sh", cmd);
+	char next_path[256];
+	sprintf(next_path, "%s/next.sh", Paths.userdataDir);
+	putFile(next_path, cmd);
 	quit = 1;
 }
 
@@ -668,7 +672,7 @@ static void readyResumePath(char* rom_path, int type) {
 	char path[256];
 	strcpy(path, rom_path);
 	
-	if (!prefixMatch(kRomPath, path)) return;
+	if (!prefixMatch(Paths.romsDir, path)) return;
 	
 	char auto_path[256];
 	if (type==kEntryDir) {
@@ -685,7 +689,7 @@ static void readyResumePath(char* rom_path, int type) {
 	strcpy(rom_file, tmp);
 	
 	char mmenu_dir[256];
-	sprintf(mmenu_dir, "%s/.mmenu/%s", kUserdataPath, emu_name); // /.userdata/<platform>/.mmenu/<EMU>
+	sprintf(mmenu_dir, "%s/.mmenu/%s", Paths.userdataDir, emu_name); // /.userdata/<platform>/.mmenu/<EMU>
 	sprintf(slot_path, "%s/%s.txt", mmenu_dir, rom_file); // /.userdata/<platform>/.mmenu/<EMU>/<romname>.ext.txt
 	
 	can_resume = exists(slot_path);
@@ -696,14 +700,14 @@ static void readyResumeRecent(void) {
 		if (!recent->available) continue;
 		
 		char sd_path[256];
-		sprintf(sd_path, "%s%s", kRootPath, recent->path);
+		sprintf(sd_path, "%s%s", Paths.rootDir, recent->path);
 		int type = suffixMatch(".pak", sd_path) ? kEntryPak : kEntryRom;
 		readyResumePath(sd_path, type);
 		break;
 	}
 } 
 static void readyResume(Entry* entry) {
-	if (exactMatch(kRecentlyPlayedPath, entry->path)) return readyResumeRecent(); // special case
+	if (exactMatch(Paths.fauxRecentDir, entry->path)) return readyResumeRecent(); // special case
 	readyResumePath(entry->path, entry->type);
 }
 
@@ -715,7 +719,7 @@ static void openPak(char* path) {
 	sprintf(cmd, "\"%s/launch.sh\"", path);
 	
 	// TODO: revisit this path (will games even be supported?)
-	// if (prefixMatch(kRootPath "/Games", path)) {
+	// if (prefixMatch(Paths.rootDir "/Games", path)) {
 	// 	addRecent(path);
 	// }
 	saveLast(path);
@@ -726,7 +730,7 @@ static void openRom(char* path, char* last) {
 	getEmuName(path, emu_name);
 	
 	char cmd[256];
-	sprintf(cmd, "\"%s/Emus/%s.pak/launch.sh\" \"%s\"", kPakPath, emu_name, path);
+	sprintf(cmd, "\"%s/Emus/%s.pak/launch.sh\" \"%s\"", Paths.paksDir, emu_name, path);
 
 	if (should_resume) {
 		char slot[16];
@@ -746,20 +750,20 @@ static int openRecent(void) {
 		if (!recent->available) continue;
 		
 		char sd_path[256];
-		sprintf(sd_path, "%s%s", kRootPath, recent->path);
+		sprintf(sd_path, "%s%s", Paths.rootDir, recent->path);
 		
 		// if (suffixMatch(".pak", path)) {
 		// 	openPak(sd_path);
 		// }
 		// else {
-			openRom(sd_path, kRootPath);
+			openRom(sd_path, Paths.rootDir);
 		// }
 		return 1;
 	}
 	return 0;
 }
 static void openDirectory(char* path, int auto_launch) {
-	if (should_resume && exactMatch(kRecentlyPlayedPath, path)) {
+	if (should_resume && exactMatch(Paths.fauxRecentDir, path)) {
 		if (openRecent()) return;
 	}
 	
@@ -788,7 +792,7 @@ static void openDirectory(char* path, int auto_launch) {
 	
 	top = Directory_new(path, selected);
 	top->start = start;
-	top->end = end ? end : ((top->entries->count<LIST_ROWS) ? top->entries->count : LIST_ROWS);
+	top->end = end ? end : ((top->entries->count<Screen.main.list.row_count) ? top->entries->count : Screen.main.list.row_count);
 
 	Array_push(stack, top);
 }
@@ -817,11 +821,11 @@ static void Entry_open(Entry* self) {
 
 static void saveLast(char* path) {
 	// special case for recently played
-	if (exactMatch(top->path, kRecentlyPlayedPath)) {
+	if (exactMatch(top->path, Paths.fauxRecentDir)) {
 		// NOTE: that we don't have to save the file because
 		// your most recently played game will always be at
 		// the top which is also the default selection
-		path = kRecentlyPlayedPath;
+		path = Paths.fauxRecentDir;
 	}
 	putFile(kLastPath, path);
 }
@@ -832,7 +836,7 @@ static void loadLast(void) { // call after loading root directory
 	getFile(kLastPath, last_path);
 	
 	Array* last = Array_new();
-	while (!exactMatch(last_path, kRootPath)) {
+	while (!exactMatch(last_path, Paths.rootDir)) {
 		Array_push(last, strdup(last_path));
 		
 		char* slash = strrchr(last_path, '/');
@@ -847,13 +851,13 @@ static void loadLast(void) { // call after loading root directory
 				top->selected = i;
 				if (i>=top->end) {
 					top->start = i;
-					top->end = top->start + LIST_ROWS;
+					top->end = top->start + Screen.main.list.row_count;
 					if (top->end>top->entries->count) {
 						top->end = top->entries->count;
-						top->start = top->end - LIST_ROWS;
+						top->start = top->end - Screen.main.list.row_count;
 					}
 				}
-				if (last->count==0 && !exactMatch(entry->path, kRecentlyPlayedPath)) break; // don't show contents of auto-launch dirs
+				if (last->count==0 && !exactMatch(entry->path, Paths.fauxRecentDir)) break; // don't show contents of auto-launch dirs
 				
 				if (entry->type==kEntryDir) {
 					openDirectory(entry->path, 0);
@@ -872,7 +876,7 @@ static void Menu_init(void) {
 	stack = Array_new(); // array of open Directories
 	recents = Array_new();
 
-	openDirectory(kRootPath, 0);
+	openDirectory(Paths.rootDir, 0);
 	loadLast(); // restore state when available
 }
 static void Menu_quit(void) {
@@ -886,6 +890,7 @@ int main (int argc, char *argv[]) {
 	puts("MinUI");
 	fflush(stdout);
 	
+	Union_init();
 	initPlatform();
 	
 	SDL_Init(SDL_INIT_VIDEO);
@@ -903,15 +908,15 @@ int main (int argc, char *argv[]) {
 	
 	InitLanguage(&lang);
 	
-	SDL_Surface* screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	SDL_Surface* screen = SDL_SetVideoMode(Screen.width, Screen.height, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
 	
-	GFX_init(lang.CJK ? kCJKFontPath : kFontPath);
+	GFX_init(lang.CJK!=NULL);
 	GFX_ready();
 	
 	// TODO: uncomment once I sort out per-platform can-sleep setting
 	// // wake training
 	// SDL_FillRect(screen, NULL, 0);
-	// GFX_blitBodyCopy(screen, lang.wake,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+	// GFX_blitBodyCopy(screen, lang.wake,0,0,Screen.width,Screen.height);
 	// SDL_Flip(screen);
 	// waitForWake();
 	
@@ -961,7 +966,7 @@ int main (int argc, char *argv[]) {
 			selected -= 1;
 			if (selected<0) {
 				selected = total-1;
-				int start = total - LIST_ROWS;
+				int start = total - Screen.main.list.row_count;
 				top->start = (start<0) ? 0 : start;
 				top->end = total;
 			}
@@ -975,7 +980,7 @@ int main (int argc, char *argv[]) {
 			if (selected>=total) {
 				selected = 0;
 				top->start = 0;
-				top->end = (total<LIST_ROWS) ? total : LIST_ROWS;
+				top->end = (total<Screen.main.list.row_count) ? total : Screen.main.list.row_count;
 			}
 			else if (selected>=top->end) {
 				top->start += 1;
@@ -983,30 +988,30 @@ int main (int argc, char *argv[]) {
 			}
 		}
 		if (Input_justRepeated(kButtonLeft)) {
-			selected -= LIST_ROWS;
+			selected -= Screen.main.list.row_count;
 			if (selected<0) {
 				selected = 0;
 				top->start = 0;
-				top->end = (total<LIST_ROWS) ? total : LIST_ROWS;
+				top->end = (total<Screen.main.list.row_count) ? total : Screen.main.list.row_count;
 			}
 			else if (selected<top->start) {
-				top->start -= LIST_ROWS;
+				top->start -= Screen.main.list.row_count;
 				if (top->start<0) top->start = 0;
-				top->end = top->start + LIST_ROWS;
+				top->end = top->start + Screen.main.list.row_count;
 			}
 		}
 		else if (Input_justRepeated(kButtonRight)) {
-			selected += LIST_ROWS;
+			selected += Screen.main.list.row_count;
 			if (selected>=total) {
 				selected = total-1;
-				int start = total - LIST_ROWS;
+				int start = total - Screen.main.list.row_count;
 				top->start = (start<0) ? 0 : start;
 				top->end = total;
 			}
 			else if (selected>=top->end) {
-				top->end += LIST_ROWS;
+				top->end += Screen.main.list.row_count;
 				if (top->end>total) top->end = total;
-				top->start = top->end - LIST_ROWS;
+				top->start = top->end - Screen.main.list.row_count;
 			}
 		}
 		
@@ -1017,11 +1022,11 @@ int main (int argc, char *argv[]) {
 				int i = entry->alpha-1;
 				if (i>=0) {
 					selected = top->alphas->items[i];
-					if (total>LIST_ROWS) {
+					if (total>Screen.main.list.row_count) {
 						top->start = selected;
-						top->end = top->start + LIST_ROWS;
+						top->end = top->start + Screen.main.list.row_count;
 						if (top->end>total) top->end = total;
-						top->start = top->end - LIST_ROWS;
+						top->start = top->end - Screen.main.list.row_count;
 					}
 				}
 			}
@@ -1030,11 +1035,11 @@ int main (int argc, char *argv[]) {
 				int i = entry->alpha+1;
 				if (i<top->alphas->count) {
 					selected = top->alphas->items[i];
-					if (total>LIST_ROWS) {
+					if (total>Screen.main.list.row_count) {
 						top->start = selected;
-						top->end = top->start + LIST_ROWS;
+						top->end = top->start + Screen.main.list.row_count;
 						if (top->end>total) top->end = total;
-						top->start = top->end - LIST_ROWS;
+						top->start = top->end - Screen.main.list.row_count;
 					}
 				}
 			}
@@ -1155,16 +1160,15 @@ int main (int argc, char *argv[]) {
 			dirty = 0;
 			
 			SDL_FillRect(screen, NULL, 0);
-			SDL_BlitSurface(logo, NULL, screen, &(SDL_Rect){LOGO_X,LOGO_Y});
+			SDL_BlitSurface(logo, NULL, screen, &(SDL_Rect){Screen.main.logo.x,Screen.main.logo.y});
 
 			if (show_setting) {
-				GFX_blitSettings(screen, LIST_SETTINGS_X, LIST_SETTINGS_Y, show_setting==1?0:(setting_value>0?1:2), setting_value,setting_min,setting_max);
+				GFX_blitSettings(screen, Screen.main.settings.x, Screen.main.settings.y, show_setting==1?0:(setting_value>0?1:2), setting_value,setting_min,setting_max);
 			}
 			else {
-				// if (stack->count>1) GFX_blitText(screen, top->name, 1, LOGO_X + logo->w + LOGO_X, LOCATION_Y, 0, 1); // don't love it
-				GFX_blitBattery(screen, BATTERY_X, BATTERY_Y);
+				GFX_blitBattery(screen, Screen.main.battery.x, Screen.main.battery.y);
 			}
-			GFX_blitRule(screen, RULE_TOP_Y);
+			GFX_blitRule(screen, Screen.main.rule.top_y);
 			
 			int selected_row = top->selected - top->start;
 			for (int i=top->start,j=0; i<top->end; i++,j++) {
@@ -1174,23 +1178,23 @@ int main (int argc, char *argv[]) {
 				GFX_blitMenu(screen, entry->name, entry->path, entry->conflict, j, selected_row, has_alt, use_alt);
 			}
 			
-			GFX_blitRule(screen, RULE_BOTTOM_Y);
+			GFX_blitRule(screen, Screen.main.rule.bottom_y);
 			if (can_resume) {
-				if (strlen(HINT_RESUME)>1) GFX_blitPill(screen, HINT_RESUME, lang.resume, BUTTON_ROW_LEFT, BUTTON_ROW_TOP);
-				else GFX_blitButton(screen, HINT_RESUME, lang.resume, BUTTON_ROW_LEFT, BUTTON_ROW_TOP, RESUME_BUTTON_TEXT_OX);
+				if (strlen(HINT_RESUME)>1) GFX_blitPill(screen, HINT_RESUME, lang.resume, Screen.buttons.left, Screen.buttons.top);
+				else GFX_blitButton(screen, HINT_RESUME, lang.resume, Screen.buttons.left, Screen.buttons.top, Screen.button.text.ox_R);
 			}
 			else {
 #ifdef PLATFORM_RS90
-				SDL_BlitSurface(btn_select_start, NULL, screen, &(SDL_Rect){8,BUTTON_ROW_TOP-2});
-				GFX_blitHint(screen, lang.sleep, 48, BUTTON_ROW_TOP+HINT_TEXT_OY);
+				SDL_BlitSurface(btn_select_start, NULL, screen, &(SDL_Rect){8,Screen.buttons.top-2});
+				GFX_blitHint(screen, lang.sleep, 48, Screen.buttons.top+Screen.hint.text_oy);
 #else
-				GFX_blitPill(screen, HINT_SLEEP, lang.sleep, BUTTON_ROW_LEFT, BUTTON_ROW_TOP);
+				GFX_blitPill(screen, HINT_SLEEP, lang.sleep, Screen.buttons.left, Screen.buttons.top);
 #endif	
 			}
 			
-			int button_width = GFX_blitButton(screen, "A", lang.open, -BUTTON_ROW_RIGHT, BUTTON_ROW_TOP, A_BUTTON_TEXT_OX);
+			int button_width = GFX_blitButton(screen, "A", lang.open, -Screen.buttons.right, Screen.buttons.top, Screen.button.text.ox_A);
 			if (stack->count>1) {
-				GFX_blitButton(screen, "B", lang.back, -(BUTTON_ROW_RIGHT+button_width+BUTTON_ROW_GUTTER),BUTTON_ROW_TOP, B_BUTTON_TEXT_OX);
+				GFX_blitButton(screen, "B", lang.back, -(Screen.buttons.right+button_width+Screen.buttons.gutter),Screen.buttons.top, Screen.button.text.ox_B);
 			}
 			SDL_Flip(screen);
 		}
@@ -1202,7 +1206,9 @@ int main (int argc, char *argv[]) {
 	}
 	
 	// TODO: tmp
-	SDL_RWops* out = SDL_RWFromFile(kRootPath "/snap." PLATFORM_NAME ".bmp", "wb");
+	char snap_path[256];
+	sprintf(snap_path, "%s/snap.%s.bmp", Paths.rootDir, Paths.systemName);
+	SDL_RWops* out = SDL_RWFromFile(snap_path, "wb");
 	SDL_SaveBMP_RW(screen, out, 1);
 	
 	SDL_FillRect(screen, NULL, 0);

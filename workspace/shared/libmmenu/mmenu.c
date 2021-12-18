@@ -42,6 +42,8 @@ static char* items[kItemCount];
 static int slot = 0;
 
 __attribute__((constructor)) static void init(void) {
+	Union_init();
+	
 #ifdef PLATFORM_TRIMUI
 	void* libtinyalsa = dlopen("libtinyalsa.so", RTLD_LAZY | RTLD_GLOBAL); // mixer
 #elif PLATFORM_RS90
@@ -60,9 +62,9 @@ __attribute__((constructor)) static void init(void) {
 	items[kItemAdvanced] 	= lang.advanced;
 	items[kItemExitGame] 	= lang.exit;
 	
-	GFX_init(lang.CJK ? kCJKFontPath : kFontPath);
+	GFX_init(lang.CJK!=NULL);
 	
-	overlay = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 16, 0, 0, 0, 0);
+	overlay = SDL_CreateRGBSurface(SDL_SWSURFACE, Screen.width, Screen.height, 16, 0, 0, 0, 0);
 	SDL_SetAlpha(overlay, SDL_SRCALPHA, 0x80);
 	SDL_FillRect(overlay, NULL, 0);
 	
@@ -95,7 +97,7 @@ typedef struct __attribute__((__packed__)) uint24_t {
 	uint8_t a,b,c;
 } uint24_t;
 static SDL_Surface* createThumbnail(SDL_Surface* src_img) {
-	SDL_Surface* dst_img = SDL_CreateRGBSurface(0,SCREEN_WIDTH/2, SCREEN_HEIGHT/2,src_img->format->BitsPerPixel,src_img->format->Rmask,src_img->format->Gmask,src_img->format->Bmask,src_img->format->Amask);
+	SDL_Surface* dst_img = SDL_CreateRGBSurface(0,Screen.width/2, Screen.height/2,src_img->format->BitsPerPixel,src_img->format->Rmask,src_img->format->Gmask,src_img->format->Bmask,src_img->format->Amask);
 
 	uint8_t* src_px = src_img->pixels;
 	uint8_t* dst_px = dst_img->pixels;
@@ -151,7 +153,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 	strcpy(rom_file, tmp);
 	
 	getEmuName(rom_path, emu_name);
-	sprintf(mmenu_dir, "%s/.mmenu/%s", kUserdataPath, emu_name); // /.userdata/<platform>/.mmenu/<EMU>
+	sprintf(mmenu_dir, "%s/.mmenu/%s", Paths.userdataDir, emu_name); // /.userdata/<platform>/.mmenu/<EMU>
 	sprintf(slot_path, "%s/%s.txt", mmenu_dir, rom_file); // /.userdata/<platform>/.mmenu/<EMU>/<romname>.ext.txt
 	mkdir(mmenu_dir, 0755);
 
@@ -237,7 +239,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 	// cache static elements
 	
 	// NOTE: original screen copying logic
-	// SDL_Surface* copy = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 16, 0, 0, 0, 0);
+	// SDL_Surface* copy = SDL_CreateRGBSurface(SDL_SWSURFACE, Screen.width, Screen.height, 16, 0, 0, 0, 0);
 	// SDL_BlitSurface(screen, NULL, copy, NULL);
 
 	// NOTE: copying the screen to a new surface caused a 15fps drop in PocketSNES
@@ -249,19 +251,19 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 	memcpy(copy_pixels, screen->pixels, copy_bytes);
 	SDL_Surface* copy = SDL_CreateRGBSurfaceFrom(copy_pixels, screen->w,screen->h, screen->format->BitsPerPixel, screen->pitch, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
 	
-	SDL_Surface* cache = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 16, 0, 0, 0, 0);
+	SDL_Surface* cache = SDL_CreateRGBSurface(SDL_SWSURFACE, Screen.width, Screen.height, 16, 0, 0, 0, 0);
 	SDL_BlitSurface(copy, NULL, cache, NULL);
 	SDL_BlitSurface(overlay, NULL, cache, NULL);
 
-	SDL_FillRect(cache, &(SDL_Rect){0,0,SCREEN_WIDTH,MENU_BAR_HEIGHT}, 0);
-	GFX_blitRule(cache, MENU_RULE_TOP_Y);
+	SDL_FillRect(cache, &(SDL_Rect){0,0,Screen.width,Screen.menu.bar_height}, 0);
+	GFX_blitRule(cache, Screen.menu.rule.top_y);
 
-	GFX_blitText(cache, rom_name, 1, MENU_TITLE_X, MENU_TITLE_Y, MENU_TITLE_WIDTH, 1, 0);
+	GFX_blitText(cache, rom_name, 1, Screen.menu.title.x, Screen.menu.title.y, Screen.menu.title.width, 1, 0);
 	
-	GFX_blitWindow(cache, MENU_WINDOW_X, MENU_WINDOW_Y, MENU_WINDOW_WIDTH, MENU_WINDOW_HEIGHT, 1);
+	GFX_blitWindow(cache, Screen.menu.window.x, Screen.menu.window.y, Screen.menu.window.width, Screen.menu.window.height, 1);
 	
-	SDL_FillRect(cache, &(SDL_Rect){0,SCREEN_HEIGHT-MENU_BAR_HEIGHT,SCREEN_WIDTH,MENU_BAR_HEIGHT}, 0);
-	GFX_blitRule(cache, MENU_RULE_BOTTOM_Y);
+	SDL_FillRect(cache, &(SDL_Rect){0,Screen.height-Screen.menu.bar_height,Screen.width,Screen.menu.bar_height}, 0);
+	GFX_blitRule(cache, Screen.menu.rule.bottom_y);
 	
 	Input_reset();
 	
@@ -363,7 +365,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 						char* disc_path = disc_paths[disc];
 						char last_path[256];
 						getFile(kLastPath, last_path);
-						if (!exactMatch(last_path, PLATFORM_ROOT "/Recently Played")) {
+						if (!exactMatch(last_path, Paths.fauxRecentDir)) {
 							putFile(kLastPath, disc_path);
 						}
 						putFile(kChangeDiscPath, disc_path);
@@ -439,10 +441,10 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 		if (dirty) {
 			dirty = 0;
 			SDL_BlitSurface(cache, NULL, screen, NULL);
-			GFX_blitBattery(screen, MENU_BATTERY_X, MENU_BATTERY_Y);
+			GFX_blitBattery(screen, Screen.menu.battery.x, Screen.menu.battery.y);
 			
 			if (show_setting) {
-				GFX_blitSettings(screen, MENU_SETTINGS_X, MENU_SETTINGS_Y, show_setting==1?0:(setting_value>0?1:2), setting_value,setting_min,setting_max);
+				GFX_blitSettings(screen, Screen.menu.settings.x, Screen.menu.settings.y, show_setting==1?0:(setting_value>0?1:2), setting_value,setting_min,setting_max);
 			}
 			
 			// list
@@ -452,14 +454,14 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 				
 				int color = 1; // gold
 				if (i==selected) {
-					SDL_FillRect(screen, &(SDL_Rect){MENU_WINDOW_X,MENU_LIST_Y+(i*MENU_LIST_LINE_HEIGHT)-((MENU_LIST_ROW_HEIGHT-MENU_LIST_LINE_HEIGHT)/2),MENU_WINDOW_WIDTH,MENU_LIST_ROW_HEIGHT}, gold_rgb);
+					SDL_FillRect(screen, &(SDL_Rect){Screen.menu.window.x,Screen.menu.list.y+(i*Screen.menu.list.line_height)-((Screen.menu.list.row_height-Screen.menu.list.line_height)/2),Screen.menu.window.width,Screen.menu.list.row_height}, gold_rgb);
 					color = 0; // white
 				}
 				
-				GFX_blitText(screen, item, 2, MENU_LIST_X, MENU_LIST_Y+(i*MENU_LIST_LINE_HEIGHT)+MENU_LIST_OY, 0, color, i==selected);
+				GFX_blitText(screen, item, 2, Screen.menu.list.x, Screen.menu.list.y+(i*Screen.menu.list.line_height)+Screen.menu.list.oy, 0, color, i==selected);
 				
 				if (i==kItemSave || i==kItemLoad) { // || (total_discs && i==kItemContinue)) {
-					SDL_BlitSurface(i==selected?arrow_highlighted:arrow, NULL, screen, &(SDL_Rect){MENU_WINDOW_X+MENU_WINDOW_WIDTH-(arrow->w+MENU_ARROW_OX),MENU_LIST_Y+(i*MENU_LIST_LINE_HEIGHT)+MENU_ARROW_OY});
+					SDL_BlitSurface(i==selected?arrow_highlighted:arrow, NULL, screen, &(SDL_Rect){Screen.menu.window.x+Screen.menu.window.width-(arrow->w+Screen.menu.arrow.ox),Screen.menu.list.y+(i*Screen.menu.list.line_height)+Screen.menu.arrow.oy});
 				}
 			}
 			
@@ -475,8 +477,8 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 			// slot preview
 			else if (selected==kItemSave || selected==kItemLoad) {
 				// preview window
-				SDL_Rect preview_rect = {PREVIEW_X+PREVIEW_INSET,PREVIEW_Y+PREVIEW_INSET};
-				GFX_blitWindow(screen, PREVIEW_X, PREVIEW_Y, PREVIEW_WIDTH, PREVIEW_HEIGHT, 1);
+				SDL_Rect preview_rect = {Screen.menu.preview.x+Screen.menu.preview.inset,Screen.menu.preview.y+Screen.menu.preview.inset};
+				GFX_blitWindow(screen, Screen.menu.preview.x, Screen.menu.preview.y, Screen.menu.preview.width, Screen.menu.preview.height, 1);
 				
 				if (preview_exists) { // has save, has preview
 					SDL_Surface* preview = IMG_Load(bmp_path);
@@ -485,38 +487,38 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 					SDL_FreeSurface(preview);
 				}
 				else {
-					int hw = SCREEN_WIDTH / 2;
-					int hh = SCREEN_HEIGHT / 2;
-					SDL_FillRect(screen, &(SDL_Rect){PREVIEW_X+PREVIEW_INSET,PREVIEW_Y+PREVIEW_INSET,hw,hh}, 0);
+					int hw = Screen.width / 2;
+					int hh = Screen.height / 2;
+					SDL_FillRect(screen, &(SDL_Rect){Screen.menu.preview.x+Screen.menu.preview.inset,Screen.menu.preview.y+Screen.menu.preview.inset,hw,hh}, 0);
 					if (save_exists) { // has save but no preview
 						SDL_BlitSurface(no_preview, NULL, screen, &(SDL_Rect){
-							PREVIEW_X+PREVIEW_INSET+(hw-no_preview->w)/2,
-							PREVIEW_Y+PREVIEW_INSET+(hh-no_preview->h)/2
+							Screen.menu.preview.x+Screen.menu.preview.inset+(hw-no_preview->w)/2,
+							Screen.menu.preview.y+Screen.menu.preview.inset+(hh-no_preview->h)/2
 						});
 					}
 					else { // no save
 						SDL_BlitSurface(empty_slot, NULL, screen, &(SDL_Rect){
-							PREVIEW_X+PREVIEW_INSET+(hw-empty_slot->w)/2,
-							PREVIEW_Y+PREVIEW_INSET+(hh-empty_slot->h)/2
+							Screen.menu.preview.x+Screen.menu.preview.inset+(hw-empty_slot->w)/2,
+							Screen.menu.preview.y+Screen.menu.preview.inset+(hh-empty_slot->h)/2
 						});
 					}
 				}
 				
 				SDL_BlitSurface(slot_overlay, NULL, screen, &preview_rect);
-				SDL_BlitSurface(slot_dots, NULL, screen, &(SDL_Rect){SLOTS_X,SLOTS_Y});
-				SDL_BlitSurface(slot_dot_selected, NULL, screen, &(SDL_Rect){SLOTS_X+(SLOTS_OX*slot),SLOTS_Y});
+				SDL_BlitSurface(slot_dots, NULL, screen, &(SDL_Rect){Screen.menu.slots.x,Screen.menu.slots.y});
+				SDL_BlitSurface(slot_dot_selected, NULL, screen, &(SDL_Rect){Screen.menu.slots.x+(Screen.menu.slots.ox*slot),Screen.menu.slots.y});
 			}
 			
 			// TODO: can this be cached?
 #ifdef PLATFORM_RS90
-			SDL_BlitSurface(btn_select_start, NULL, screen, &(SDL_Rect){8,MENU_BUTTON_ROW_TOP-2});
-			GFX_blitHint(screen, lang.sleep, 48, MENU_BUTTON_ROW_TOP+HINT_TEXT_OY);
+			SDL_BlitSurface(btn_select_start, NULL, screen, &(SDL_Rect){8,Screen.menu.buttons.top-2});
+			GFX_blitHint(screen, lang.sleep, 48, Screen.menu.buttons.top+Screen.hint.text_oy);
 #else
-			GFX_blitPill(screen, HINT_SLEEP, lang.sleep, BUTTON_ROW_LEFT, MENU_BUTTON_ROW_TOP);
+			GFX_blitPill(screen, HINT_SLEEP, lang.sleep, Screen.buttons.left, Screen.menu.buttons.top);
 #endif	
 			// TODO: change ACT to OKAY?
-			int button_width = GFX_blitButton(screen, "A", lang.act, -BUTTON_ROW_RIGHT, MENU_BUTTON_ROW_TOP, A_BUTTON_TEXT_OX);
-			GFX_blitButton(screen, "B", lang.back, -(BUTTON_ROW_RIGHT+button_width+BUTTON_ROW_GUTTER),MENU_BUTTON_ROW_TOP, B_BUTTON_TEXT_OX);
+			int button_width = GFX_blitButton(screen, "A", lang.act, -Screen.buttons.right, Screen.menu.buttons.top, Screen.button.text.ox_A);
+			GFX_blitButton(screen, "B", lang.back, -(Screen.buttons.right+button_width+Screen.buttons.gutter),Screen.menu.buttons.top, Screen.button.text.ox_B);
 			// TODO: /can this be cached?
 			
 			SDL_Flip(screen);
