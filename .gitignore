@@ -5,6 +5,7 @@ build
 .DS_Store
 
 # tmp until I can clean everything up
+/test/
 /art/
 /sdcards/
 /notes/
