@@ -1,6 +1,6 @@
 ISSUES:
-	commander
-		set ipu sharpness to 0 on od/odbeta
+
+- shell script to copy updated builds to SD card
 
 NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WIDTH, and SCREEN_HEIGHT are really determined at runtime!
 
