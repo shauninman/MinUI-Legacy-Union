@@ -694,6 +694,7 @@ static void readyResumePath(char* rom_path, int type) {
 	
 	can_resume = exists(slot_path);
 }
+// NOTE: this has been disabled, didn't feel right
 static void readyResumeRecent(void) {
 	for (int i=0; i<recents->count; i++) {
 		Recent* recent = recents->items[i];
@@ -707,7 +708,7 @@ static void readyResumeRecent(void) {
 	}
 } 
 static void readyResume(Entry* entry) {
-	if (exactMatch(Paths.fauxRecentDir, entry->path)) return readyResumeRecent(); // special case
+	// if (exactMatch(Paths.fauxRecentDir, entry->path)) return readyResumeRecent(); // special case
 	readyResumePath(entry->path, entry->type);
 }
 
@@ -718,7 +719,7 @@ static void openPak(char* path) {
 	char cmd[256];
 	sprintf(cmd, "\"%s/launch.sh\"", path);
 	
-	// TODO: revisit this path (will games even be supported?)
+	// TODO: revisit this path (will games even be supported? how?)
 	// if (prefixMatch(Paths.rootDir "/Games", path)) {
 	// 	addRecent(path);
 	// }

@@ -6,20 +6,6 @@ NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WID
 	- retroarch is getting more and more appealing...port picoarch?
 
 
-- separate platform and resolution:
-	determine platforms by checking for the presence of known folders or files or the contents of files?
-		Trimui
-			folder: /usr/trimui
-		Miyoo Mini
-			folder: /customer (speculation)
-		OpenDingux
-			file: /proc/version
-				match: -dingux+ (stock)
-				match: -opendingux (beta)
-	determine resolution by parsing fb0/modes?
-		/sys/class/graphics/fb0/modes
-			U:<width>x<height>p-<number>
-
 - add Trimui's SDL
 - package up Trimui's toolchain folder and upload it to github for safekeeping?
 	- maybe do for all union toolchains?
@@ -30,11 +16,19 @@ NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WID
 	- I think RS-90 (and regular odbeta?) can use /etc/hostname?
 	- stock od by process of elimination?
 - create union forks of each emulator and apply my changes
-- remove Resume from main menu (should only apply to games)
+	- can't fork my own repos
 - make Union/MinUI logo a toggle?
 - add RGB10 Max support (854x480)
 	same vertical alignments as 640x480
 	just make sure edge pinning is setup correctly for horizontal alignments
+
+- force nearest neighbor on od stock/beta
+	- see https://git.libretro.com/libretro/RetroArch/-/blob/master/dingux/dingux_utils.c
+	- set to 0 for nn
+		stock: 	/sys/devices/platform/jz-lcd.0/sharpness_upscaling
+		beta:	SDL_VIDEO_KMSDRM_SCALING_SHARPNESS
+
+- revisit .gitignore
 
 - drop RS-90 support?
 	- yes, 300 or mini will replace that form factor
