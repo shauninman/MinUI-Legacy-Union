@@ -824,7 +824,8 @@ void GFX_blitSettings(SDL_Surface* surface, int x, int y, int icon, int value, i
 	SDL_BlitSurface(icon==0?settings_brightness:(icon==1?settings_volume:settings_mute), NULL, surface, &(SDL_Rect){x+Screen.settings.icon.ox,y+Screen.settings.icon.oy});
 	SDL_BlitSurface(settings_bar_empty, NULL, surface, &(SDL_Rect){x+Screen.settings.bar.ox,y+Screen.settings.bar.oy});
 	int w = settings_bar_full->w * ((float)(value-min_value) / (max_value-min_value));
-	SDL_BlitSurface(settings_bar_full, &(SDL_Rect){0,0,w,4}, surface, &(SDL_Rect){x+Screen.settings.bar.ox,y+Screen.settings.bar.oy,w,4});
+	int h = settings_bar_full->h;
+	SDL_BlitSurface(settings_bar_full, &(SDL_Rect){0,0,w,h}, surface, &(SDL_Rect){x+Screen.settings.bar.ox,y+Screen.settings.bar.oy,w,h});
 }
 
 ///////////////////////////////////////

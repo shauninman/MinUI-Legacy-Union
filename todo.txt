@@ -1,9 +1,14 @@
 NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WIDTH, and SCREEN_HEIGHT are really determined at runtime!
 
-- tweak text alignment per platform
-- update toolchains to use PLATFORM_OD instead of PLATFORM_RG350?
 - figure out how to handle supporting multiple resolutions on the same platform in emulators
 	- retroarch is getting more and more appealing...port picoarch?
+	- in gambatte on odbeta I split out scaler into separate dmg and gbc scalers
+		- port back to rg350?
+			- I think haven't because it doesn't have the resolution for the desired scaler
+			- but 640 isn't unique to beta and vice versa so port away!
+	- in gambatte the weird resolutions + IPU scaling causes issues on 640x480 screens (not an issue at 320x240)
+- tweak text alignment per platform
+- update toolchains to use PLATFORM_OD instead of PLATFORM_RG350?
 
 
 - add Trimui's SDL
