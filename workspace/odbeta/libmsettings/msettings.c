@@ -38,12 +38,14 @@ static Settings DefaultSettings = {
 static Settings* settings;
 
 #define SHM_KEY "/SharedSettings"
-#define kSettingsPath "/media/sdcard/.userdata/odbeta/msettings.bin"
+static char SettingsPath[256];
 static int shm_fd = -1;
 static int is_host = 0;
 static int shm_size = sizeof(Settings);
 
 void InitSettings(void) {
+	sprintf(SettingsPath, "%s/.userdata/%s/msettings.bin", getenv("SDCARD_PATH"), getenv("SYSTEM_NAME"));
+	
 	shm_fd = shm_open(SHM_KEY, O_RDWR | O_CREAT | O_EXCL, 0644); // see if it exists
 	if (shm_fd==-1 && errno==EEXIST) { // already exists
 		puts("Settings client");
@@ -57,7 +59,7 @@ void InitSettings(void) {
 		ftruncate(shm_fd, shm_size);
 		settings = mmap(NULL, shm_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
 		
-		int fd = open(kSettingsPath, O_RDONLY);
+		int fd = open(SettingsPath, O_RDONLY);
 		if (fd>=0) {
 			read(fd, settings, shm_size);
 			// TODO: use settings->version for future proofing
@@ -79,7 +81,7 @@ void QuitSettings(void) {
 	if (is_host) shm_unlink(SHM_KEY);
 }
 static inline void SaveSettings(void) {
-	int fd = open(kSettingsPath, O_CREAT|O_WRONLY, 0644);
+	int fd = open(SettingsPath, O_CREAT|O_WRONLY, 0644);
 	if (fd>=0) {
 		write(fd, settings, shm_size);
 		close(fd);

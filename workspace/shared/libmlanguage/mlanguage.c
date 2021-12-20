@@ -12,18 +12,6 @@
 #include "mlanguage.h"
 #include "mlanguage_base.h"
 
-#if defined PLATFORM_TRIMUI
-#define PLATFORM_ROOT "/mnt/SDCARD"
-#elif defined PLATFORM_RS90
-#define PLATFORM_ROOT "/media/mmcblk0p1"
-#elif defined (PLATFORM_RG350) || (PLATFORM_ODBETA)
-#define PLATFORM_ROOT "/media/sdcard"
-#elif defined PLATFORM_RETROFW
-#define PLATFORM_ROOT "/media/mmcblk1p1"
-#endif
-
-#define kLanguagePath PLATFORM_ROOT "/.userdata/language.txt"
-#define kLanguagesPath PLATFORM_ROOT "/.system/shared/languages"
 #define kDefaultLanguage "English"
 
 static int exists(char* path) {
@@ -80,7 +68,15 @@ static unsigned char* shm_mmap = NULL;
 
 static char language_name[64];
 
+static char PlatformRoot[256];
+static char LanguagePath[256];
+static char LanguagesPath[256];
+
 void InitLanguage(Language* language) {
+	sprintf(PlatformRoot, "%s", getenv("SDCARD_PATH"));
+	sprintf(LanguagePath, "%s/.userdata/language.txt", PlatformRoot);
+	sprintf(LanguagesPath, "%s/.system/shared/languages", PlatformRoot);
+	
 	shm_fd = shm_open(SHM_KEY, O_RDWR | O_CREAT | O_EXCL, 0644); // see if it exists
 	if (shm_fd==-1 && errno==EEXIST) { // already exists, client
 		puts("Language client");
@@ -94,7 +90,7 @@ void InitLanguage(Language* language) {
 	else { // doesn't exist, host
 		puts("Language host");
 		
-		if (exists(kLanguagePath)) get_file(kLanguagePath, language_name); // load preferred language name
+		if (exists(LanguagePath)) get_file(LanguagePath, language_name); // load preferred language name
 		else strcpy(language_name, kDefaultLanguage); // set language to default
 		trimTrailingNewlines(language_name); // just in case
 		
@@ -106,7 +102,7 @@ void InitLanguage(Language* language) {
 	
 		// load localized strings
 		char language_path[256];
-		sprintf(language_path, "%s/%s.txt", kLanguagesPath, language_name);
+		sprintf(language_path, "%s/%s.txt", LanguagesPath, language_name);
 		// puts(language_path);
 		if (exists(language_path)) {
 			FILE* file = fopen(language_path, "r");

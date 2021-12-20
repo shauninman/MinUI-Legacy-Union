@@ -1,15 +1,26 @@
+ISSUES:
+	commander
+		set ipu sharpness to 0 on od/odbeta
+
 NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WIDTH, and SCREEN_HEIGHT are really determined at runtime!
 
 - figure out how to handle supporting multiple resolutions on the same platform in emulators
 	- retroarch is getting more and more appealing...port picoarch?
+	
 	- in gambatte on odbeta I split out scaler into separate dmg and gbc scalers
-		- port back to rg350?
-			- I think haven't because it doesn't have the resolution for the desired scaler
-			- but 640 isn't unique to beta and vice versa so port away!
-	- in gambatte the weird resolutions + IPU scaling causes issues on 640x480 screens (not an issue at 320x240)
+		- port back to rg350? yes, well, no. not a port, stock and odbeta should share the same source
+	- another wrinkle: scalers by resolution
+		- 640x480 has more interesting options available than 320x240
+		- maybe just separate preferences by resolution?
+	- another wrinkle: previews when sharing between a 1x and 2x device on the same platform...
+		- flag a platform for having multiple resolutions and save the preview at both sizes? eg. 320x240 and 160x120?
+	- in gambatte the weird resolutions + IPU scaling cause mmenu issues on 640x480 screens (not an issue at 320x240)
+		- limit options by resolution, don't use IPU
+		- 1x, 2x, 3x, 3x
 - tweak text alignment per platform
 - update toolchains to use PLATFORM_OD instead of PLATFORM_RG350?
 
+- BUG: settings changes aren't being saved on the RG350M (or is it stockod as a whole? maybe rg350 was in a hardcoded path in settings?)
 
 - add Trimui's SDL
 - package up Trimui's toolchain folder and upload it to github for safekeeping?
@@ -39,3 +50,7 @@ NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WID
 	- yes, 300 or mini will replace that form factor
 - drop retrofw/RG300 support?
 	- yes, seems to be in a state of unstable upheaval
+	
+
+BUILDING GAMBATTE
+	PLATFORM=gcw0 ./build_minui.sh
