@@ -8,18 +8,31 @@ The currently in development platforms are Trimui/A66 (where MinUI was born), Op
 
 Emulators may be omitted from a platform depending on performance or display resolution. Additional emulators may be added in the future, time permitting.
 
-- Game Boy/Game Boy Color
 - Pokémon mini
+- Game Boy/Game Boy Color
 - Game Boy Advance
 - Nintendo Entertainment System
 - Super Nintendo
 - PlayStation
 
-### Current requirements for platform consideration
+### Device support
 
-1. firmware must live on either NAND (eg. Trimui or RS-90) or a separate SD card (eg. the 350/300/280 family)
-2. display must be 320x240, the RS-90's 240x160 being a regrettable exception
-3. device must have a dedicated menu button (eg. Trimui or RG300) or free button that can be repurposed (eg. the power button or L3/R3 on the RG350/280 family), the RS-90 being a regrettable exception
+Requirements for consideration:
+
+1. firmware must live on either NAND (eg. Trimui or Miyoo Mini) or a separate SD card (eg. the 350/280 family)
+2. display must be 320x240 or 640x480
+3. device must have a dedicated menu button (eg. Trimui or Miyoo Mini) or free button that can be repurposed (eg. the power button or L3/R3 on the RG350/280 family)
 4. firmware must support FAT32
 
-Performance and lack of dedicated menu button might disqualify RS-90 from future Union development.
+#### Already underway
+
+- Trimui Model S/A66 (stock firmware)
+- Miyoo Mini (stock firmware)
+- RG280/RG350 (stock OpenDingux)
+- RG350M/RG300X (stock OpenDingux)
+
+#### Under consideration
+
+- RG280/RG350/RG350M/RG300X (OpenDingux beta)
+- RG300 (RetroFW or OpenDingux beta)
+- RGB10 Max 2 (RetroOz?)

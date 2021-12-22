@@ -1,6 +1,6 @@
-ISSUES:
-
 - shell script to copy updated builds to SD card
+
+NOTE: new SD is incompatible with old SD auto launcher on stock dingux because of system path changes
 
 NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WIDTH, and SCREEN_HEIGHT are really determined at runtime!
 
@@ -38,7 +38,7 @@ NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WID
 	same vertical alignments as 640x480
 	just make sure edge pinning is setup correctly for horizontal alignments
 
-- force nearest neighbor on od stock/beta
+- force nearest neighbor on od stock/beta?
 	- see https://git.libretro.com/libretro/RetroArch/-/blob/master/dingux/dingux_utils.c
 	- set to 0 for nn
 		stock: 	/sys/devices/platform/jz-lcd.0/sharpness_upscaling
