@@ -606,6 +606,7 @@ void GFX_init(int useCJK) {
 	fflush(stdout);
 }
 void GFX_ready(void) {
+	// TODO: this is a problem for miyoomini
 	screen = SDL_GetVideoSurface(); // :cold_sweat:
 }
 SDL_Surface* GFX_loadImage(char* path) {
@@ -642,6 +643,7 @@ void GFX_quit(void) {
 }
 
 void GFX_clear(void) {
+	// TODO: this is a problem for miyoomini
 	SDL_FillRect(screen, NULL, 0);
 	SDL_Flip(screen);
 }

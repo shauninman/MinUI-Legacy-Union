@@ -9,7 +9,7 @@
 #define MIN_BRIGHTNESS 0
 #define MAX_BRIGHTNESS 10
 
-#if defined PLATFORM_TRIMUI
+#if defined (PLATFORM_TRIMUI) || (PLATFORM_MIYOOMINI)
 #define HINT_SLEEP "MENU"
 #define HINT_RESUME "X"
 #elif defined (PLATFORM_RG350) || (PLATFORM_ODBETA)
@@ -37,6 +37,25 @@
 #define MINUI_L3 		0
 #define MINUI_R3 		0
 #define MINUI_POWER 	0
+#elif defined PLATFORM_MIYOOMINI
+#define MINUI_UP 		SDLK_UP
+#define MINUI_DOWN 		SDLK_DOWN
+#define MINUI_LEFT 		SDLK_LEFT
+#define MINUI_RIGHT 	SDLK_RIGHT
+#define MINUI_A 		SDLK_SPACE
+#define MINUI_B 		SDLK_LCTRL
+#define MINUI_X 		SDLK_LSHIFT
+#define MINUI_Y 		SDLK_LALT
+#define MINUI_START 	SDLK_RETURN
+#define MINUI_SELECT 	SDLK_RCTRL
+#define MINUI_L 		SDLK_e
+#define MINUI_R 		SDLK_t
+#define MINUI_MENU	 	SDLK_ESCAPE
+#define MINUI_L2 		SDLK_TAB
+#define MINUI_R2 		SDLK_BACKSPACE
+#define MINUI_L3 		0
+#define MINUI_R3 		0
+#define MINUI_POWER 	SDLK_UNKNOWN
 #elif defined (PLATFORM_RG350) || (PLATFORM_ODBETA)
 #define MINUI_UP 		SDLK_UP
 #define MINUI_DOWN 		SDLK_DOWN
@@ -131,6 +150,11 @@ typedef enum ButtonIndex {
 #if defined PLATFORM_TRIMUI
 #define kButtonSleep kButtonMenu
 #define kButtonSleepAlt kButtonMenu
+#define kButtonResume kButtonX
+#define kButtonAltEmu kButtonY
+#elif defined PLATFORM_MIYOOMINI
+#define kButtonSleep kButtonMenu
+#define kButtonSleepAlt kButtonPower
 #define kButtonResume kButtonX
 #define kButtonAltEmu kButtonY
 #elif defined (PLATFORM_RG350) || (PLATFORM_ODBETA)
