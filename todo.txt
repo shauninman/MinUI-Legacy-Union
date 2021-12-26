@@ -1,11 +1,20 @@
-- backup current SD card (I think it's in the white Trimui)
-- create official union-miyoomini-toolchain (no need for Dependencies, my existing version works fine)
 - get MinUI cluster of bins and libs building for Miyoo Mini
 	- Commander.pak and Power Off.pak are ready to go
+	- implement keymon
+	- finish platform.c
+		- need to figure out how to read the battery
 - then tackle gambatte (use od/350 version as base?)
 	- figure out how to submodule these subtlely different repos
+- snap.miyoomini.bmp is broken? missing text, fills?
+	- if you save the video surface instead of the buffer surface it's upside down
+	- maybe it won't matter for save state screenshots?
+- there's a crackle when booting on mini
+	- try setting volume to 40 in MinUI.pak/launch.sh
 
-
+why is initPlatform in common.h and not platform.h (it's implemented in platform.c so...)
+move screen init and flipping logic to platform? 
+	maybe there's a struct with member functions so we only need to override the default behavior on change?
+	or even just a function pointer instead?
 
 
 TODO: try darkening the non-grid pixels in the DMG scaler to offset the lightening effect the grid has
