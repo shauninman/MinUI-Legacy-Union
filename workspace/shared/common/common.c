@@ -204,8 +204,8 @@ void Union_init(void) {
 				.large_oy 		= 5*2,
 		
 				.shadow = {
-					.ox = 1*2,
-					.oy = 2*2,
+					.ox = 2,
+					.oy = 3,
 				},
 			},
 	

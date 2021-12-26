@@ -16,3 +16,6 @@
 [submodule "workspace/shared/union-commander"]
 	path = workspace/shared/union-commander
 	url = git@github.com:shauninman/union-commander.git
+[submodule "toolchains/miyoomini-toolchain"]
+	path = toolchains/miyoomini-toolchain
+	url = git@github.com:shauninman/union-miyoomini-toolchain.git

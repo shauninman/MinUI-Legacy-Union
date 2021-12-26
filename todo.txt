@@ -1,22 +1,39 @@
-- shell script to copy updated builds to SD card
+- backup current SD card (I think it's in the white Trimui)
+- create official union-miyoomini-toolchain (no need for Dependencies, my existing version works fine)
+- get MinUI cluster of bins and libs building for Miyoo Mini
+	- Commander.pak and Power Off.pak are ready to go
+- then tackle gambatte (use od/350 version as base?)
+	- figure out how to submodule these subtlely different repos
 
-NOTE: new SD is incompatible with old SD auto launcher on stock dingux because of system path changes
+
+
+
+TODO: try darkening the non-grid pixels in the DMG scaler to offset the lightening effect the grid has
 
 NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WIDTH, and SCREEN_HEIGHT are really determined at runtime!
 
-- figure out how to handle supporting multiple resolutions on the same platform in emulators
-	- retroarch is getting more and more appealing...port picoarch?
+
+
+- shell script to copy updated builds to SD card
 	
-	- in gambatte on odbeta I split out scaler into separate dmg and gbc scalers
-		- port back to rg350? yes, well, no. not a port, stock and odbeta should share the same source
-	- another wrinkle: scalers by resolution
+NOTE: new SD is incompatible with old SD auto launcher on stock dingux because of system path changes
+
+
+- figure out how to handle supporting multiple resolutions on the same platform in emulators
+	- scalers by resolution?
 		- 640x480 has more interesting options available than 320x240
 		- maybe just separate preferences by resolution?
 	- another wrinkle: previews when sharing between a 1x and 2x device on the same platform...
 		- flag a platform for having multiple resolutions and save the preview at both sizes? eg. 320x240 and 160x120?
+			- lower res devices only need to scale once
+			- higher res devices need to scale twice
+	
+	- in gambatte on odbeta I split out scaler into separate dmg and gbc scalers
+		- port back to rg350? yes, well, no. not a port, stock and odbeta should share the same source
 	- in gambatte the weird resolutions + IPU scaling cause mmenu issues on 640x480 screens (not an issue at 320x240)
 		- limit options by resolution, don't use IPU
-		- 1x, 2x, 3x, 3x
+		- 1x, 2x, 3x
+	- retroarch is getting more and more appealing...port picoarch?
 - tweak text alignment per platform
 - update toolchains to use PLATFORM_OD instead of PLATFORM_RG350?
 
@@ -54,3 +71,11 @@ NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WID
 
 BUILDING GAMBATTE
 	PLATFORM=gcw0 ./build_minui.sh
+
+
+NOTE: subpixel simulation scalers can be lightened by using the source color instead of black
+	subpixel separation is pretty simple in Photoshop
+		1. duplicate your layer three times, name each red, green, blue
+		2. adjust the Curves to remove the other two colors, eg. remove green and blue from red, etc
+		3. mask with your subpixel shape
+		4. fill excess with black

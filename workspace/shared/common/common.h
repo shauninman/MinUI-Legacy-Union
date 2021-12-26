@@ -3,7 +3,7 @@
 
 #include <SDL/SDL.h>
 
-// currently platform independent
+// platform independent
 #define MIN_VOLUME 0
 #define MAX_VOLUME 20
 #define MIN_BRIGHTNESS 0
@@ -173,8 +173,6 @@ typedef struct UnionPaths {
 typedef struct UnionScreen {
 	int width;
 	int height;
-	
-	// TODO: some of these are shared between minui (MAIN_ or unprefixed) and libmmenu (MENU_ prefixed), some are one or the other
 	
 	struct {
 		
