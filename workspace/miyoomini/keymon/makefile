@@ -1,5 +1,5 @@
 CC = $(CROSS_COMPILE)gcc
-FLAGS	= -Os -lmsettings -lrt -ldl -Wl,--gc-sections -s
+FLAGS	= -Os -lmsettings -lpthread -lrt -ldl -Wl,--gc-sections -s
 
 all:
 	$(CC) keymon.c -o keymon $(FLAGS)

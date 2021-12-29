@@ -1,3 +1,5 @@
+// miyoomini/keymon.c
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -6,9 +8,13 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <linux/input.h>
-#include <sys/mman.h>
 
 #include <msettings.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+#include <pthread.h>
 
 //	Button Defines
 #define	BUTTON_MENU		KEY_ESC
@@ -45,25 +51,63 @@
 #endif
 
 //	Global Variables
-struct input_event	ev;
-int	input_fd = 0;
-//
-//	Quit
-//
+typedef struct {
+    int channel_value;
+    int adc_value;
+} SAR_ADC_CONFIG_READ;
+
+#define SARADC_IOC_MAGIC                     'a'
+#define IOCTL_SAR_INIT                       _IO(SARADC_IOC_MAGIC, 0)
+#define IOCTL_SAR_SET_CHANNEL_READ_VALUE     _IO(SARADC_IOC_MAGIC, 1)
+
+static SAR_ADC_CONFIG_READ  adcCfg = {0,0};
+static int sar_fd = 0;
+static struct input_event	ev;
+static int	input_fd = 0;
+static pthread_t adc_pt;
+
 void quit(int exitcode) {
+	pthread_cancel(adc_pt);
+	pthread_join(adc_pt, NULL);
 	QuitSettings();
 	
 	if (input_fd > 0) close(input_fd);
+	if (sar_fd > 0) close(sar_fd);
 	exit(exitcode);
 }
 
+static void initADC(void) {
+	sar_fd = open("/dev/sar", O_WRONLY);
+	ioctl(sar_fd, IOCTL_SAR_INIT, NULL);
+}
+static void checkADC(void) {
+	ioctl(sar_fd, IOCTL_SAR_SET_CHANNEL_READ_VALUE, &adcCfg);
+	
+	int adc_fd = open("/tmp/adc", O_CREAT | O_WRONLY);
+	if (adc_fd>0) {
+		char val[8];
+		sprintf(val, "%d", adcCfg.adc_value);
+		write(adc_fd, val, strlen(val));
+		close(adc_fd);
+	}
+}
+static void* runADC(void *arg) {
+	while(1) {
+		sleep(5);
+		checkADC();
+	}
+	return 0;
+}
+
 int main (int argc, char *argv[]) {
+	initADC();
+	checkADC();
+	pthread_create(&adc_pt, NULL, &runADC, NULL);
+	
 	// Set Initial Volume / Brightness
 	InitSettings();
 	SetVolume(GetVolume());
 	SetBrightness(GetBrightness());
-
-	fflush(stdout);
 	
 	input_fd = open("/dev/input/event0", O_RDONLY);
 
