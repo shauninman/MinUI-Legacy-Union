@@ -7,23 +7,22 @@
 #include <msettings.h>
 
 int getBatteryLevel(void) {
-	// int min = 40;
-	// int max = 48;
-	// int value = getInt("/sys/devices/soc/1c23400.battery/adc");
-	// int scaled = (value - min) * 6 / (max - min);
-	// if (scaled>5) return 5;
-	// else return scaled;
-	
-	// TODO:
-	
-	return 5;
+	int min = 439;
+	int max = 500;
+	int value = getInt("/tmp/adc");
+	int scaled = (value - min) * 6 / (max - min);
+	if (scaled>5) return 5;
+	else return scaled;
 }
 
 void initPlatform(void) {
 	// buh
 }
+void quitPlatform(void) {
+	// buh
+}
 void enterSleep(void) {
-	SetVolume(0);
+	SetRawVolume(40); // range is 40-100 :facepalm:
 	SetRawBrightness(0);
 }
 void exitSleep(void) {

@@ -89,9 +89,7 @@ int GetVolume(void) { // 0-20
 }
 void SetVolume(int value) {
 	int raw = 40 + value * 3;
-	char cmd[256];
-	sprintf(cmd, "tinymix set 6 %i", raw);
-	system(cmd);
+	SetRawVolume(raw);
 	settings->speaker = value;
 	SaveSettings();
 }
@@ -102,6 +100,11 @@ void SetRawBrightness(int val) {
 		dprintf(fd,"%d",val);
 		close(fd);
 	}
+}
+void SetRawVolume(int val) {
+	char cmd[256];
+	sprintf(cmd, "tinymix set 6 %i", val);
+	system(cmd);
 }
 
 int GetJack(void) {
