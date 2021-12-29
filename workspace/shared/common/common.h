@@ -17,6 +17,8 @@
 #define HINT_RESUME "X"
 #endif
 
+#define SDLK_UNDEFINED -1
+
 // must be unique except for absent buttons
 #if defined PLATFORM_TRIMUI
 #define MINUI_UP 		SDLK_UP
@@ -32,11 +34,11 @@
 #define MINUI_L 		SDLK_TAB
 #define MINUI_R 		SDLK_BACKSPACE
 #define MINUI_MENU	 	SDLK_ESCAPE
-#define MINUI_L2 		0
-#define MINUI_R2 		0
-#define MINUI_L3 		0
-#define MINUI_R3 		0
-#define MINUI_POWER 	0
+#define MINUI_L2 		SDLK_UNDEFINED
+#define MINUI_R2 		SDLK_UNDEFINED
+#define MINUI_L3 		SDLK_UNDEFINED
+#define MINUI_R3 		SDLK_UNDEFINED
+#define MINUI_POWER 	SDLK_UNDEFINED
 #elif defined PLATFORM_MIYOOMINI
 #define MINUI_UP 		SDLK_UP
 #define MINUI_DOWN 		SDLK_DOWN
@@ -53,8 +55,8 @@
 #define MINUI_MENU	 	SDLK_ESCAPE
 #define MINUI_L2 		SDLK_TAB
 #define MINUI_R2 		SDLK_BACKSPACE
-#define MINUI_L3 		0
-#define MINUI_R3 		0
+#define MINUI_L3 		SDLK_UNDEFINED
+#define MINUI_R3 		SDLK_UNDEFINED
 #define MINUI_POWER 	SDLK_UNKNOWN
 #elif defined (PLATFORM_RG350) || (PLATFORM_ODBETA)
 #define MINUI_UP 		SDLK_UP
@@ -69,7 +71,7 @@
 #define MINUI_SELECT 	SDLK_ESCAPE
 #define MINUI_L 		SDLK_TAB
 #define MINUI_R 		SDLK_BACKSPACE
-#define MINUI_MENU		0
+#define MINUI_MENU		SDLK_UNDEFINED
 #define MINUI_L2 		SDLK_PAGEUP
 #define MINUI_R2 		SDLK_PAGEDOWN
 #define MINUI_L3 		SDLK_KP_DIVIDE
@@ -89,10 +91,10 @@
 #define MINUI_L			SDLK_TAB		
 #define MINUI_R			SDLK_BACKSPACE	
 #define MINUI_MENU		SDLK_LEFTBRACKET // brightness?
-#define MINUI_L2 		0
-#define MINUI_R2 		0
-#define MINUI_L3 		0
-#define MINUI_R3 		0
+#define MINUI_L2 		SDLK_UNDEFINED
+#define MINUI_R2 		SDLK_UNDEFINED
+#define MINUI_L3 		SDLK_UNDEFINED
+#define MINUI_R3 		SDLK_UNDEFINED
 #define MINUI_POWER		SDLK_END		// sleep?
 #elif defined PLATFORM_RS90
 #define MINUI_UP 		SDLK_UP
@@ -101,18 +103,18 @@
 #define MINUI_RIGHT 	SDLK_RIGHT
 #define MINUI_A 		SDLK_LCTRL
 #define MINUI_B 		SDLK_LALT
-#define MINUI_X 		0
-#define MINUI_Y 		0
+#define MINUI_X 		SDLK_UNDEFINED
+#define MINUI_Y 		SDLK_UNDEFINED
 #define MINUI_START 	SDLK_RETURN
 #define MINUI_SELECT 	SDLK_ESCAPE
 #define MINUI_L 		SDLK_TAB
 #define MINUI_R 		SDLK_BACKSPACE
-#define MINUI_MENU 		0
-#define MINUI_L2 		0
-#define MINUI_R2 		0
-#define MINUI_L3 		0
-#define MINUI_R3 		0
-#define MINUI_POWER 	0
+#define MINUI_MENU 		SDLK_UNDEFINED
+#define MINUI_L2 		SDLK_UNDEFINED
+#define MINUI_R2 		SDLK_UNDEFINED
+#define MINUI_L3 		SDLK_UNDEFINED
+#define MINUI_R3 		SDLK_UNDEFINED
+#define MINUI_POWER 	SDLK_UNDEFINED
 #endif
 
 #define GOLD_TRIAD 0xd2,0xb4,0x6c
