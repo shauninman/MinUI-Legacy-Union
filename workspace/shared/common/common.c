@@ -570,7 +570,8 @@ static SDL_Color gray = {GRAY_TRIAD};
 static SDL_Color shadow25 = {SHADOW25_TRIAD};
 static SDL_Color shadow50 = {SHADOW50_TRIAD};
 
-static SDL_Surface* battery[6];
+#define BATTERY_IMAGE_COUNT 7
+static SDL_Surface* battery[BATTERY_IMAGE_COUNT];
 void GFX_init(int useCJK) {
 	char font_path[256];
 	sprintf(font_path, "%s/fonts/%s", Paths.sharedSystemDir, useCJK?"rounded-mplus-1c-heavy.ttf":"BPreplayBold-unhinted.otf");
@@ -597,7 +598,7 @@ void GFX_init(int useCJK) {
 	alt_disabled = GFX_loadImage("alt-disabled.png");
 	
 	char battery_path[256];
-	for (int i=0; i<=5; i++) {
+	for (int i=0; i<BATTERY_IMAGE_COUNT; i++) {
 		sprintf(battery_path, "battery-%i.png", i);
 		battery[i] = GFX_loadImage(battery_path);
 	}
@@ -631,7 +632,7 @@ void GFX_quit(void) {
 	SDL_FreeSurface(alt_enabled);
 	SDL_FreeSurface(alt_disabled);
 	
-	for (int i=0; i<6; i++) {
+	for (int i=0; i<BATTERY_IMAGE_COUNT; i++) {
 		SDL_FreeSurface(battery[i]);
 	}
 	
@@ -820,7 +821,7 @@ SDL_Surface* GFX_getText(char* text, int size, int color) {
 }
 
 void GFX_blitBattery(SDL_Surface* surface, int x, int y) {
-	int charge = getSmoothBatteryLevel();
+	int charge = isCharging() ? 6 : getSmoothBatteryLevel();
 	SDL_BlitSurface(battery[charge], NULL, surface, &(SDL_Rect){x,y});
 }
 void GFX_blitSettings(SDL_Surface* surface, int x, int y, int icon, int value, int min_value, int max_value) {

@@ -6,6 +6,9 @@
 
 ///////////////////////////////////////
 
+int isCharging(void) {
+	return 0;
+}
 int getBatteryLevel(void) {
 	int value = getInt("/proc/jz/battery");
 	

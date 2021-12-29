@@ -309,6 +309,8 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 	int setting_max = 0;
 	int select_is_locked = 0; // rs90-only
 	unsigned long cancel_start = SDL_GetTicks();
+	int was_charging = isCharging();
+	unsigned long charge_start = SDL_GetTicks();
 	while (!quit) {
 		unsigned long frame_start = SDL_GetTicks();
 		int select_was_pressed = Input_isPressed(kButtonSelect); // rs90-only
@@ -420,6 +422,16 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 		
 		unsigned long now = SDL_GetTicks();
 		if (Input_anyPressed()) cancel_start = now;
+
+		#define kChargeDelay 1000
+		if (dirty || now-charge_start>=kChargeDelay) {
+			int is_charging = isCharging();
+			if (was_charging!=is_charging) {
+				was_charging = is_charging;
+				dirty = 1;
+			}
+			charge_start = now;
+		}
 
 		#define kSleepDelay 30000
 		if (now-cancel_start>=kSleepDelay && preventAutosleep()) cancel_start = now;

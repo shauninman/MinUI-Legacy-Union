@@ -929,6 +929,8 @@ int main (int argc, char *argv[]) {
 	
 	Input_reset();
 	int dirty = 1;
+	int was_charging = isCharging();
+	unsigned long charge_start = SDL_GetTicks();
 	int show_setting = 0; // 1=brightness,2=volume
 	int setting_value = 0;
 	int setting_min = 0;
@@ -1121,6 +1123,17 @@ int main (int argc, char *argv[]) {
 		
 		unsigned long now = SDL_GetTicks();
 		if (Input_anyPressed()) cancel_start = now;
+		
+		#define kChargeDelay 1000
+		if (dirty || now-charge_start>=kChargeDelay) {
+			int is_charging = isCharging();
+			if (was_charging!=is_charging) {
+				was_charging = is_charging;
+				dirty = 1;
+			}
+			charge_start = now;
+		}
+		
 
 		#define kSleepDelay 30000
 		if (now-cancel_start>=kSleepDelay && preventAutosleep()) cancel_start = now;

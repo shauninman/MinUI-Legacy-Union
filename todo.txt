@@ -1,15 +1,39 @@
-- get MinUI cluster of bins and libs building for Miyoo Mini
-	- Commander.pak and Power Off.pak are ready to go
-	- implement keymon
-	- finish platform.c
-		- need to figure out how to read the battery
+trimui
+	see if I can export gpio to find charging status?
+		67 is USB Power
+	not seeing hte interface for this in sys
+
+miyoo
+	recent.txt randomly getting nuked
+		possibly only when force to cut power?
+		or if I return to the main menu with no sd inserted?
+	gambatte
+		sound latency
+		screen tearing
+
+- build an SD card image?
+
 - then tackle gambatte (use od/350 version as base?)
 	- figure out how to submodule these subtlely different repos
 - snap.miyoomini.bmp is broken? missing text, fills?
+	- use cat /dev/fb0 > snap.miyoomini.raw instead?
 	- if you save the video surface instead of the buffer surface it's upside down
 	- maybe it won't matter for save state screenshots?
+		- doesn't matter for save states
+
+- build own version of SDL that rotates on flip instead of hw blit
+	- that's going to be challenging if only because audio is mess
+
 - there's a crackle when booting on mini
+	- THIS PROBLEM EXISTS ON STOCK
+	- also when opening the native menu in gambatte
 	- try setting volume to 40 in MinUI.pak/launch.sh
+		- no effect
+	- check keymon for audio init code?
+	- it could be from sdl audio starting up or pausing/resuming?
+		- I think after it happens volume is different
+
+- add charging icon on devices that support it
 
 why is initPlatform in common.h and not platform.h (it's implemented in platform.c so...)
 move screen init and flipping logic to platform? 
@@ -17,11 +41,8 @@ move screen init and flipping logic to platform?
 	or even just a function pointer instead?
 
 
-TODO: try darkening the non-grid pixels in the DMG scaler to offset the lightening effect the grid has
 
 NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WIDTH, and SCREEN_HEIGHT are really determined at runtime!
-
-
 
 - shell script to copy updated builds to SD card
 	

@@ -8,6 +8,9 @@
 
 #define BATTERY_PATH "/sys/class/power_supply/battery"
 
+int isCharging(void) {
+	return 0;
+}
 int getBatteryLevel(void) {
 	static int min;
 	static int max;

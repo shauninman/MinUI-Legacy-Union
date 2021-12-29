@@ -6,6 +6,9 @@
 
 #include <msettings.h>
 
+int isCharging(void) {
+	return getInt("/sys/devices/gpiochip0/gpio/gpio59/value");
+}
 int getBatteryLevel(void) {
 	int min = 505; // was 439
 	int max = 546; // was 500

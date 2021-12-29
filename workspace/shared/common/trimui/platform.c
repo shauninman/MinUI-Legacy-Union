@@ -6,6 +6,9 @@
 
 #include <msettings.h>
 
+int isCharging(void) {
+	return 0;
+}
 int getBatteryLevel(void) {
 	int min = 40;
 	int max = 48;
