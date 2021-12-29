@@ -901,12 +901,6 @@ int main (int argc, char *argv[]) {
 	SDL_EnableKeyRepeat(300,100);
 	
 	InitSettings();
-	// TODO: keymon does this now on both platforms right? 
-	// TODO: no, not if we don't run keymon :sweat_smile:
-	// TODO: or not?
-	// SetVolume(GetVolume());
-	// SetBrightness(GetBrightness());
-	
 	InitLanguage(&lang);
 	
 #if defined PLATFORM_MIYOOMINI
@@ -1233,13 +1227,15 @@ int main (int argc, char *argv[]) {
 	SDL_FreeSurface(logo);
 #ifdef PLATFORM_RS90
 	SDL_FreeSurface(btn_select_start);
+#elif defined PLATFORM_MIYOOMINI
+	SDL_FreeSurface(screen);
 #endif
 	
 	Menu_quit();
-	
 	GFX_quit();
-	
-	SDL_Quit();
+	quitPlatform(); // TODO: why not Platform_quit()!? 
+
+	SDL_Quit(); // TODO: why isn't this in GFX_quit?
 	QuitSettings();
 	QuitLanguage();
 }

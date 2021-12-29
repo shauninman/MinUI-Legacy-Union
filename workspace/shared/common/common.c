@@ -549,7 +549,7 @@ void putInt(char* path, int value) {
 static TTF_Font* font_s;
 static TTF_Font* font_m;
 static TTF_Font* font_l;
-static SDL_Surface* screen;
+static SDL_Surface* screen; // video surface
 static SDL_Surface* rule;
 static SDL_Surface* button;
 static SDL_Surface* slot_overlay;
@@ -638,6 +638,8 @@ void GFX_quit(void) {
 	TTF_CloseFont(font_s);
 	TTF_CloseFont(font_m);
 	TTF_CloseFont(font_l);
+	
+	if (screen) SDL_FreeSurface(screen);
 	
 	TTF_Quit();
 }

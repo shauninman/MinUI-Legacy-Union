@@ -129,8 +129,25 @@ static SDL_Surface* createThumbnail(SDL_Surface* src_img) {
 	return dst_img;
 }
 
+static SDL_Surface* video = NULL;
+
+static void Menu_flip(void) {
+#ifdef PLATFORM_MIYOOMINI
+	SDL_BlitSurface(screen, NULL, video, NULL);
+	SDL_Flip(video);
+#else
+	SDL_Flip(screen);
+#endif
+}
+
 MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
+#ifdef PLATFORM_MIYOOMINI
+	video = SDL_GetVideoSurface();
+	screen = SDL_CreateRGBSurface(SDL_HWSURFACE, video->w, video->h, 32, 0,0,0,0);
+	SDL_BlitSurface(video, NULL, screen, NULL); // TODO: upside down? (possibly exactly what we want)
+#else
 	screen = SDL_GetVideoSurface();
+#endif
 	// if (SDL_MUSTLOCK(screen)) SDL_UnlockSurface(screen); // fix for regba?
 	
 	GFX_ready();
@@ -521,7 +538,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 			GFX_blitButton(screen, "B", lang.back, -(Screen.buttons.right+button_width+Screen.buttons.gutter),Screen.menu.buttons.top, Screen.button.text.ox_B);
 			// TODO: /can this be cached?
 			
-			SDL_Flip(screen);
+			Menu_flip();
 		}
 		
 		// slow down to 60fps
@@ -536,7 +553,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 		for (int i=0; i<4; i++) {
 			SDL_FillRect(screen, NULL, 0); // TODO: is this still necessary?
 			SDL_BlitSurface(copy, NULL, screen, NULL);
-			SDL_Flip(screen);
+			Menu_flip();
 		}
 	}
 
@@ -544,6 +561,10 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 	// NOTE: copy->pixels was manually malloc'd so it must be manually freed too
 	SDL_FreeSurface(copy);
 	free(copy_pixels); 
+	
+#ifdef PLATFORM_MIYOOMINI
+	SDL_FreeSurface(screen);
+#endif
 	
 	SDL_EnableKeyRepeat(0,0);
 	

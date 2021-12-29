@@ -408,6 +408,7 @@ void GFX_blitBattery(SDL_Surface* surface, int x, int y);
 void GFX_blitSettings(SDL_Surface* surface, int x, int y, int icon, int value, int min_value, int max_value); // icon=0:brightness,1:volume,2:mute
 
 void initPlatform(void);
+void quitPlatform(void);
 void waitForWake(void);
 void fauxSleep(void);
 int getSmoothBatteryLevel(void);
