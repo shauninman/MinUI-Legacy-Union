@@ -7,8 +7,8 @@
 #include <msettings.h>
 
 int getBatteryLevel(void) {
-	int min = 439;
-	int max = 500;
+	int min = 505; // was 439
+	int max = 546; // was 500
 	int value = getInt("/tmp/adc");
 	int scaled = (value - min) * 6 / (max - min);
 	if (scaled>5) return 5;
