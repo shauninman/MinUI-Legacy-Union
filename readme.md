@@ -1,8 +1,8 @@
 # About the Union project
 
-Union is the sequel to [MinUI](https://github.com/shauninman/MinUI). A custom launcher with a consistent, simple UI across all supported emulators and devices from the same SD card. Share your library and save data (but not save states) with a handful of devices. Trimui on the bus. RG350 on the couch. I don't know, seems cool to me.
+Union is the sequel to [MinUI](https://github.com/shauninman/MinUI). A custom launcher with a consistent, simple UI across all supported emulators and devices from the same SD card. Share your library and save data (but not save states) with a handful of devices. Trimui on the bus. RG350M on the couch. I don't know, seems cool to me.
 
-The currently in development platforms are Trimui/A66 (where MinUI was born), OpenDingux beta on the RS-90, stock OpenDingux on the 320x240 RG350/280 family of devices, and RetroFW on the RG300.
+The currently in development platforms are the Trimui Model S/A66 (where MinUI was born), stock OpenDingux on the RG350/280 family of devices, and the Miyoo Mini.
 
 ### Initial planned emulator support
 
@@ -33,6 +33,6 @@ Requirements for consideration:
 
 #### Under consideration
 
-- RG280/RG350/RG350M/RG300X (OpenDingux beta)
+- RG350/280 family (OpenDingux beta)
 - RG300 (RetroFW or OpenDingux beta)
-- RGB10 Max 2 (RetroOz?)
+- RGB10 Max 2 (RetroOz, although this would be exception to requirements 1 & 2 above so maybe not...)
