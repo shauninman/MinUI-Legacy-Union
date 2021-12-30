@@ -23,6 +23,7 @@ lib:
 	
 sys: lib
 	cd ./$(PLATFORM)/keymon && make
+	cd ./$(PLATFORM) && make sys
 	cd ./shared/minui && make
 
 clean:
@@ -31,6 +32,7 @@ clean:
 	cd ./shared/libmmenu && make clean
 	
 	cd ./$(PLATFORM)/keymon && make clean
+	cd ./$(PLATFORM) && make clean
 	cd ./shared/minui && make clean
 
 # TODO: build platform specific emulators

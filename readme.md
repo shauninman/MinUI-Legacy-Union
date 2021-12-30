@@ -6,7 +6,7 @@ The currently in development platforms are the Trimui Model S/A66 (where MinUI w
 
 ### Initial planned emulator support
 
-Emulators may be omitted from a platform depending on performance or display resolution. Additional emulators may be added in the future, time permitting.
+Emulators may be omitted from a platform depending on performance or limited display resolution. Additional emulators may be added in the future, time permitting.
 
 - Pokémon mini
 - Game Boy/Game Boy Color

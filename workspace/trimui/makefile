@@ -1,6 +1,4 @@
-.PHONY: clean
-
-all:
+sys:
 	cd ./third-party/SDL-1.2 && ./make.sh
 
 clean:

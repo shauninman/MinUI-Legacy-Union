@@ -1,6 +1,4 @@
-.PHONY: clean
-
-all:
+sys:
 	cd ./batmon && make
 
 clean:
