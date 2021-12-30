@@ -19,3 +19,6 @@
 [submodule "toolchains/miyoomini-toolchain"]
 	path = toolchains/miyoomini-toolchain
 	url = git@github.com:shauninman/union-miyoomini-toolchain.git
+[submodule "workspace/trimui/third-party/SDL-1.2"]
+	path = workspace/trimui/third-party/SDL-1.2
+	url = git@github.com:shauninman/SDL-1.2.git
