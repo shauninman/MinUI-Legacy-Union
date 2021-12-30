@@ -14,7 +14,7 @@
 	path = toolchains/rs90-toolchain
 	url = git@github.com:shauninman/union-rs90-toolchain.git
 [submodule "workspace/shared/union-commander"]
-	path = workspace/shared/union-commander
+	path = workspace/shared/third-party/union-commander
 	url = git@github.com:shauninman/union-commander.git
 [submodule "toolchains/miyoomini-toolchain"]
 	path = toolchains/miyoomini-toolchain
