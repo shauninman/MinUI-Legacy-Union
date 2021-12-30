@@ -1,7 +1,5 @@
-trimui
-	see if I can export gpio to find charging status?
-		67 is USB Power
-	not seeing hte interface for this in sys
+excuse the mess, this needs some serious pruning...
+
 
 miyoo
 	recent.txt randomly getting nuked
@@ -70,19 +68,18 @@ NOTE: new SD is incompatible with old SD auto launcher on stock dingux because o
 
 - BUG: settings changes aren't being saved on the RG350M (or is it stockod as a whole? maybe rg350 was in a hardcoded path in settings?)
 
-- add Trimui's SDL
 - package up Trimui's toolchain folder and upload it to github for safekeeping?
 	- maybe do for all union toolchains?
 - build an SD card image
 - create the Union.sh launch installer
-	- Trimui doesn't need one, it has .tmp_update on SD
+	- Trimui/Mini don't need one, they have .tmp_update on SD
 	- RG300 has /home/retrofw
 	- I think RS-90 (and regular odbeta?) can use /etc/hostname?
 	- stock od by process of elimination?
 - create union forks of each emulator and apply my changes
-	- can't fork my own repos
+	- can't fork my own repos :facepalm:
 - make Union/MinUI logo a toggle?
-- add RGB10 Max support (854x480)
+- add RGB10 Max 2 support (854x480)
 	same vertical alignments as 640x480
 	just make sure edge pinning is setup correctly for horizontal alignments
 
@@ -92,19 +89,21 @@ NOTE: new SD is incompatible with old SD auto launcher on stock dingux because o
 		stock: 	/sys/devices/platform/jz-lcd.0/sharpness_upscaling
 		beta:	SDL_VIDEO_KMSDRM_SCALING_SHARPNESS
 
-- revisit .gitignore
+trimui
+	see if I can export gpio to find charging status?
+		67 is USB Power
+	not seeing hte interface for this in sys
 
 - drop RS-90 support?
 	- yes, 300 or mini will replace that form factor
 - drop retrofw/RG300 support?
 	- yes, seems to be in a state of unstable upheaval
-	
 
 BUILDING GAMBATTE
 	PLATFORM=gcw0 ./build_minui.sh
 
 
-NOTE: subpixel simulation scalers can be lightened by using the source color instead of black
+SUBPIXEL SIMULATION SCALERS
 	subpixel separation is pretty simple in Photoshop
 		1. duplicate your layer three times, name each red, green, blue
 		2. adjust the Curves to remove the other two colors, eg. remove green and blue from red, etc
