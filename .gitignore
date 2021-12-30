@@ -1,5 +1,5 @@
 /.build
-build
+build/
 *.o
 *.so
 .DS_Store
@@ -11,9 +11,12 @@ build
 /notes/
 /reference/
 /fonts/
-/workspace/*
-!/workspace/*/
-/workspace/*/*
-!/workspace/shared/*
-!/workspace/*/keymon
-!/workspace/*/libmsettings
+/safety/
+
+-old/
+Test/
+
+batmon
+!batmon/
+keymon
+!keymon/

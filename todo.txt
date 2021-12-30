@@ -7,6 +7,7 @@ miyoo
 	recent.txt randomly getting nuked
 		possibly only when force to cut power?
 		or if I return to the main menu with no sd inserted?
+			no that's not it
 	gambatte
 		sound latency
 		screen tearing
