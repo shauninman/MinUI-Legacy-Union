@@ -9,7 +9,7 @@
 #define BATTERY_PATH "/sys/class/power_supply/jz-battery"
 
 int isCharging(void) {
-	return 0;
+	return getInt("/sys/class/power_supply/usb-charger/online"); // TODO: test
 }
 int getBatteryLevel(void) {
 	static int min;
@@ -40,6 +40,10 @@ void initPlatform(void) {
 	// required for the screen to turn off properly the first time it sleeps
 	toggleScreen(1);
 }
+void quitPlatform(void) {
+	// buh
+}
+
 void enterSleep(void) {
 	toggleScreen(0);
 }
@@ -48,5 +52,5 @@ void exitSleep(void) {
 }
 
 int preventAutosleep(void) {
-	return getInt("/sys/class/power_supply/usb-charger/online"); // TODO: test
+	return isCharging();
 }

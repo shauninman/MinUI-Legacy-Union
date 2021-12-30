@@ -821,7 +821,7 @@ SDL_Surface* GFX_getText(char* text, int size, int color) {
 }
 
 void GFX_blitBattery(SDL_Surface* surface, int x, int y) {
-	int charge = isCharging() ? 6 : getSmoothBatteryLevel();
+	int charge = getSmoothBatteryLevel();
 	SDL_BlitSurface(battery[charge], NULL, surface, &(SDL_Rect){x,y});
 }
 void GFX_blitSettings(SDL_Surface* surface, int x, int y, int icon, int value, int min_value, int max_value) {
@@ -908,7 +908,14 @@ void fauxSleep(void) {
 	exitSleep();
 }
 
-int getSmoothBatteryLevel(void) {	
+static int was_charging = 0;
+int getSmoothBatteryLevel(void) {
+	int is_charging = isCharging();
+	if (is_charging) {
+		was_charging = 1;
+		return 6;
+	}
+	
 	#define kBatteryReadings 10
 	
 	static int values[kBatteryReadings];
@@ -919,8 +926,9 @@ int getSmoothBatteryLevel(void) {
 	
 	int value = getBatteryLevel();
 	unsigned long now_ticks = SDL_GetTicks();
-	if (now_ticks-last_ticks>1000*10) {
+	if (now_ticks-last_ticks>1000*10 || was_charging) {
 		ready = 0;
+		was_charging = 0;
 		last_ticks = now_ticks;
 	}
 

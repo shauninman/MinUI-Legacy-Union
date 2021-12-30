@@ -21,6 +21,10 @@ int getBatteryLevel(void) {
 void initPlatform(void) {
 	// buh
 }
+void quitPlatform(void) {
+	// buh
+}
+
 void enterSleep(void) {
 	SetRawVolume(0);
 	SetRawBrightness(0);

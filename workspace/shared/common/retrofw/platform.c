@@ -50,6 +50,10 @@ static void toggleScreen(int state) {
 void initPlatform(void) {
 	backlight = getInt(BACKLIGHT_PATH);
 }
+void quitPlatform(void) {
+	// buh
+}
+
 void enterSleep(void) {
 	toggleScreen(0);
 }

@@ -24,6 +24,7 @@ void initPlatform(void) {
 void quitPlatform(void) {
 	// buh
 }
+
 void enterSleep(void) {
 	SetRawVolume(40); // range is 40-100 :facepalm:
 	SetRawBrightness(0);
@@ -34,5 +35,5 @@ void exitSleep(void) {
 }
 
 int preventAutosleep(void) {
-	return 0;
+	return isCharging();
 }
