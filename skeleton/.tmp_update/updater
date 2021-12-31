@@ -1,0 +1,75 @@
+#!/bin/sh
+# auto.sh common
+
+export SCREEN_WIDTH=0
+export SCREEN_HEIGHT=0
+export SDCARD_PATH=
+export SYSTEM_NAME=
+
+while read -r line
+do
+	sw=$(echo $line | cut -dx -f1 | tr -d 'U:')
+	sh=$(echo $line | cut -dx -f2 | cut -dp -f1)
+	if [ $sw -gt $SCREEN_WIDTH ] || [ $sh -gt $SCREEN_HEIGHT ]; then
+		SCREEN_WIDTH=$sw
+		SCREEN_HEIGHT=$sh
+	fi
+done < "/sys/class/graphics/fb0/modes"
+
+INSTALL_NAME=Union.sh # known file
+if [ -d /media ]; then
+	MOUNT_DIR=/media
+	DIR_PATH="$MOUNT_DIR/sdcard"
+	if [ -f "$DIR_PATH/$INSTALL_NAME"  ]; then
+		SDCARD_PATH="$DIR_PATH"
+	else
+		cd "$MOUNT_DIR"
+		for d in */ ; do
+			DIR_PATH=$MOUNT_DIR/${d%/}
+			if [ -f "$DIR_PATH/$INSTALL_NAME" ]; then
+				SDCARD_PATH="$DIR_PATH"
+				break
+			fi
+		done
+		cd - > /dev/null
+	fi
+elif [ -d /mnt ]; then
+	MOUNT_DIR=/mnt
+	DIR_PATH="$MOUNT_DIR/SDCARD"
+	if [ -f "$DIR_PATH/$INSTALL_NAME"  ]; then
+		SDCARD_PATH="$DIR_PATH"
+	else
+		cd "$MOUNT_DIR"
+		for d in */ ; do
+			DIR_PATH=$MOUNT_DIR/${d%/}
+			if [ -f "$DIR_PATH/$INSTALL_NAME" ]; then
+				SDCARD_PATH="$DIR_PATH"
+				break
+			fi
+		done
+		cd - > /dev/null
+	fi
+fi
+
+VERSION=`cat /proc/version 2> /dev/null`
+case $VERSION in
+*"-opendingux"*)
+	SYSTEM_NAME="odbeta"
+	;;
+*"-dingux+"*)
+	SYSTEM_NAME="stockod"
+	;;
+*"@alfchen-ubuntu"*)
+	SYSTEM_NAME="rg350"
+	;;
+*"@alfchen-NUC"*)
+	SYSTEM_NAME="miyoomini"
+	;;
+esac
+
+LAUNCH_PATH="$SDCARD_PATH/.system/$SYSTEM_NAME/paks/MinUI.pak/launch.sh"
+
+# everything above this point is the same for all platforms (so far)
+if [ -f "$LAUNCH_PATH" ]; then
+	"$LAUNCH_PATH" # trimui/miyoo
+fi
