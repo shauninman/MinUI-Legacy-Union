@@ -1,9 +1,6 @@
 [submodule "toolchains/retrofw-toolchain"]
 	path = toolchains/retrofw-toolchain
 	url = git@github.com:shauninman/union-retrofw-toolchain.git
-[submodule "toolchains/trimui-toolchain"]
-	path = toolchains/trimui-toolchain
-	url = git@github.com:shauninman/union-trimui-toolchain.git
 [submodule "toolchains/odbeta-toolchain"]
 	path = toolchains/odbeta-toolchain
 	url = git@github.com:shauninman/union-odbeta-toolchain.git
