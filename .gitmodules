@@ -10,9 +10,6 @@
 [submodule "toolchains/rs90-toolchain"]
 	path = toolchains/rs90-toolchain
 	url = git@github.com:shauninman/union-rs90-toolchain.git
-[submodule "workspace/shared/union-commander"]
-	path = workspace/shared/third-party/union-commander
-	url = git@github.com:shauninman/union-commander.git
 [submodule "toolchains/miyoomini-toolchain"]
 	path = toolchains/miyoomini-toolchain
 	url = git@github.com:shauninman/union-miyoomini-toolchain.git
@@ -22,6 +19,9 @@
 [submodule "toolchains/trimui-toolchain"]
 	path = toolchains/trimui-toolchain
 	url = git@github.com:shauninman/union-trimui-toolchain.git
-[submodule "workspace/miyoomini/third-party/union-commander"]
-	path = workspace/miyoomini/third-party/union-commander
-	url = git@github.com:shauninman/union-commander.git
+[submodule "workspace/shared/third-party/DinguxCommander"]
+	path = workspace/shared/third-party/DinguxCommander
+	url = git@github.com:shauninman/DinguxCommander.git
+[submodule "workspace/miyoomini/third-party/DinguxCommander"]
+	path = workspace/miyoomini/third-party/DinguxCommander
+	url = git@github.com:shauninman/DinguxCommander.git
