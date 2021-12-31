@@ -1,3 +1,7 @@
+ifeq (,$(CROSS_COMPILE))
+$(error missing CROSS_COMPILE for this toolchain)
+endif
+
 TARGET = batmon
 
 CC = $(CROSS_COMPILE)gcc

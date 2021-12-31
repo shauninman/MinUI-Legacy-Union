@@ -10,8 +10,6 @@ ifeq (,$(PLATFORM))
 $(error please specify PLATFORM, eg. PLATFORM=trimui make)
 endif
 
-export PLATFORM
-
 ###########################################################
 
 all: sys
@@ -27,6 +25,7 @@ sys: lib
 	cd ./shared/minui && make
 
 clean:
+	rm -rf ./build
 	cd ./$(PLATFORM)/libmsettings && make clean
 	cd ./shared/libmlanguage && make clean
 	cd ./shared/libmmenu && make clean
