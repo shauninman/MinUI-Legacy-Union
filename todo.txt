@@ -119,6 +119,8 @@ trimui
 
 BUILDING GAMBATTE
 	PLATFORM=gcw0 ./build_minui.sh
+	PLATFORM=miyoomini ./build_minui.sh
+	make -f Makefile.trimui
 
 
 SUBPIXEL SIMULATION SCALERS

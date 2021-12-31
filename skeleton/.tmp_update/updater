@@ -57,10 +57,10 @@ case $VERSION in
 	SYSTEM_NAME="odbeta"
 	;;
 *"-dingux+"*)
-	SYSTEM_NAME="stockod"
+	SYSTEM_NAME="rg350"
 	;;
 *"@alfchen-ubuntu"*)
-	SYSTEM_NAME="rg350"
+	SYSTEM_NAME="trimui"
 	;;
 *"@alfchen-NUC"*)
 	SYSTEM_NAME="miyoomini"

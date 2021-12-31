@@ -2,7 +2,7 @@
 # /.system/trimui/paks/Emus/GB/launch.sh
 
 EMU_TAG=GB
-EMU_EXE=gambatte
+EMU_EXE=gambatte-dms
 
 ROM="$1"
 

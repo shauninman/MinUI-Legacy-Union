@@ -71,7 +71,7 @@ LAUNCH_PATH="$SDCARD_PATH/.system/$SYSTEM_NAME/paks/MinUI.pak/launch.sh"
 
 # everything above this point is the same for all platforms (so far)
 if [ -f "$LAUNCH_PATH" ]; then
-	"$LAUNCH_PATH" # trimui
+	"$LAUNCH_PATH"
 else
 	exec /usr/bin/gmenu2x
 fi
