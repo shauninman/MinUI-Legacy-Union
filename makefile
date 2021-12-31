@@ -20,13 +20,13 @@ common:
 trimui:
 	make common PLATFORM=$@
 	cp ./workspace/$@/third-party/SDL-1.2/build/.libs/libSDL-1.2.so.0.11.5 ./build/PAYLOAD/.system/$@/lib/libSDL-1.2.so.0
-	cp ./workspace/shared/third-party/union-commander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
-	cp -r ./workspace/shared/third-party/union-commander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp ./workspace/shared/third-party/DinguxCommander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp -r ./workspace/shared/third-party/DinguxCommander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
 
 rg350:
 	make common PLATFORM=$@
-	cp ./workspace/shared/third-party/union-commander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
-	cp -r ./workspace/shared/third-party/union-commander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp ./workspace/shared/third-party/DinguxCommander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp -r ./workspace/shared/third-party/DinguxCommander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
 
 miyoomini:
 	make common PLATFORM=$@
