@@ -22,3 +22,6 @@
 [submodule "toolchains/trimui-toolchain"]
 	path = toolchains/trimui-toolchain
 	url = git@github.com:shauninman/union-trimui-toolchain.git
+[submodule "workspace/miyoomini/third-party/union-commander"]
+	path = workspace/miyoomini/third-party/union-commander
+	url = git@github.com:shauninman/union-commander.git

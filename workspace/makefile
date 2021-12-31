@@ -33,7 +33,3 @@ clean:
 	cd ./$(PLATFORM)/keymon && make clean
 	cd ./$(PLATFORM) && make clean
 	cd ./shared/minui && make clean
-
-# TODO: build platform specific emulators
-# TODO: I figured out a way to trigger this from macOS, need to remember how
-# TODO: then I can also script * shell to push changes to device or an image or zip file

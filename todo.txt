@@ -1,6 +1,24 @@
 excuse the mess, this needs some serious pruning...
 
 
+
+
+
+
+
+
+finish stubbing out skeleton and the root makefile
+
+
+
+
+
+
+
+
+trimui
+	figure out why the platform/trimui/skin directory doesn't exist on the trimui-model-s branch of picodrive
+
 miyoo
 	recent.txt randomly getting nuked
 		possibly only when force to cut power?
