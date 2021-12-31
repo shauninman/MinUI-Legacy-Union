@@ -3,6 +3,9 @@ excuse the mess, this needs some serious pruning...
 
 
 
+figure out how to submodule these subtlely different repos
+	since I can't fork a repo more than once on github I guess I just need to use branches...
+	so maybe delete union-commander and just use a union branch (union-miyoomini for miyoomini)?
 
 
 
@@ -31,7 +34,6 @@ miyoo
 - build an SD card image?
 
 - then tackle gambatte (use od/350 version as base?)
-	- figure out how to submodule these subtlely different repos
 - snap.miyoomini.bmp is broken? missing text, fills?
 	- use cat /dev/fb0 > snap.miyoomini.raw instead?
 	- if you save the video surface instead of the buffer surface it's upside down
