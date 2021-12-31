@@ -19,3 +19,6 @@
 [submodule "workspace/trimui/third-party/SDL-1.2"]
 	path = workspace/trimui/third-party/SDL-1.2
 	url = git@github.com:shauninman/SDL-1.2.git
+[submodule "toolchains/trimui-toolchain"]
+	path = toolchains/trimui-toolchain
+	url = git@github.com:shauninman/union-trimui-toolchain.git
