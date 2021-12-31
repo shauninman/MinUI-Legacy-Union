@@ -1,21 +1,18 @@
 # Union/makefile
 
-HOST_WORKSPACE=$(shell pwd)/workspace
-GUEST_WORKSPACE=/root/workspace
+all: setup # trimui rg350 miyoomini
 
-ifeq (,$(PLATFORM))
-$(error please specify PLATFORM, eg. make PLATFORM=trimui)
-endif
+setup:
+	mkdir -p ./build
 
-ifeq (trimui,$(PLATFORM))
-GUEST_WORKSPACE=/home/trimui/workspace
-endif
+trimui:
+	make build -f toolchain.makefile PLATFORM=trimui
 
-all: toolchains/$(PLATFORM)-toolchain/.build
-	docker run -it --rm -v $(HOST_WORKSPACE):$(GUEST_WORKSPACE) $(PLATFORM)-toolchain /bin/bash
+rg350:
+	make build -f toolchain.makefile PLATFORM=rg350
 
-toolchains/$(PLATFORM)-toolchain/.build:
-	cd toolchains/$(PLATFORM)-toolchain && make .build
+miyoomini:
+	make build -f toolchain.makefile PLATFORM=miyoomini
 
-clean:
-	cd toolchains/$(PLATFORM)-toolchain && make clean
+shell:
+	make -f toolchain.makefile PLATFORM=$(PLATFORM)
