@@ -22,17 +22,20 @@ trimui:
 	cp ./workspace/$@/third-party/SDL-1.2/build/.libs/libSDL-1.2.so.0.11.5 ./build/PAYLOAD/.system/$@/lib/libSDL-1.2.so.0
 	cp ./workspace/shared/third-party/DinguxCommander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
 	cp -r ./workspace/shared/third-party/DinguxCommander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp ./workspace/$@/third-party/gambatte-dms/gambatte-dms ./build/PAYLOAD/.system/$@/paks/Emus/GB.pak/
 
 rg350:
 	make common PLATFORM=$@
 	cp ./workspace/shared/third-party/DinguxCommander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
 	cp -r ./workspace/shared/third-party/DinguxCommander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp ./workspace/shared/third-party/gambatte-dms/build/gcw0/gambatte ./build/PAYLOAD/.system/$@/paks/Emus/GB.pak/
 
 miyoomini:
 	make common PLATFORM=$@
 	cp ./workspace/$@/batmon/batmon ./build/PAYLOAD/.system/$@/bin/
-	cp ./workspace/$@/third-party/union-commander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
-	cp -r ./workspace/$@/third-party/union-commander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp ./workspace/$@/third-party/DinguxCommander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp -r ./workspace/$@/third-party/DinguxCommander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp ./workspace/shared/third-party/gambatte-dms/build/$@/gambatte ./build/PAYLOAD/.system/$@/paks/Emus/GB.pak/
 	
 shell:
 	make -f toolchain.makefile PLATFORM=$(PLATFORM)
