@@ -1,11 +1,19 @@
 excuse the mess, this needs some serious pruning...
 
+>>> submodule completed emulators and branch for union-platform
+	start with gambatte across the board for now
+
+Game Boy
+	origin	 https://github.com/shauninman/union-gambatte-dms (union)
+	upstream https://github.com/SnDream/gambatte-dms.git (master-rs90)
+
+	thinking about putting this in shared
+		want separate 2x and 1x settings defaults
+
+libmmenu
+	needs to handle 1x and 2x previews on platforms that support both
 
 
-
-figure out how to submodule these subtlely different repos
-	since I can't fork a repo more than once on github I guess I just need to use branches...
-	so maybe delete union-commander and just use a union branch (union-miyoomini for miyoomini)?
 
 
 
@@ -122,7 +130,7 @@ trimui
 BUILDING GAMBATTE
 	PLATFORM=gcw0 ./build_minui.sh
 	PLATFORM=miyoomini ./build_minui.sh
-	make -f Makefile.trimui
+	make (trimui)
 
 
 SUBPIXEL SIMULATION SCALERS

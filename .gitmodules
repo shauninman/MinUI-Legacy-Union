@@ -28,3 +28,6 @@
 [submodule "workspace/rg350/third-party/gambatte-dms"]
 	path = workspace/shared/third-party/gambatte-dms
 	url = git@github.com:shauninman/union-gambatte-dms.git
+[submodule "workspace/trimui/third-party/gambatte-dms"]
+	path = workspace/trimui/third-party/gambatte-dms
+	url = git@github.com:shauninman/gambatte-dms.git

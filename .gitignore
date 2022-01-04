@@ -7,9 +7,11 @@ build/
 # tmp until I can clean everything up
 
 -old/
+-test/
 Test/
 
 batmon
 !batmon/
 keymon
 !keymon/
+

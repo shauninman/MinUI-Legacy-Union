@@ -10,7 +10,7 @@ sleep 0.25
 # init backlight
 echo 0 > /sys/class/pwm/pwmchip0/export
 echo 800 > /sys/class/pwm/pwmchip0/pwm0/period
-echo 100 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+echo 6 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
 
 # init charger detection
