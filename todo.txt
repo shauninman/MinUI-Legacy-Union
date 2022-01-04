@@ -1,5 +1,10 @@
 excuse the mess, this needs some serious pruning...
 
+figure out how to organize this document
+	by platform?
+	by console?
+	by repo?
+
 libmmenu
 	needs to handle 1x and 2x previews on platforms that support both
 
@@ -10,7 +15,7 @@ Game Boy
 	trimui
 		origin	 https://github.com/shauninman/gambatte-dms (union-trimui)
 
-	want separate 2x and 1x defaults settings (2x should get the cool ones!)
+	want to separate 2x and 1x defaults settings (2x should get the cool ones!)
 
 
 
@@ -29,6 +34,7 @@ finish stubbing out skeleton and the root makefile
 
 trimui
 	figure out why the platform/trimui/skin directory doesn't exist on the trimui-model-s branch of picodrive
+		or just use alternate one it was copied from
 
 miyoo
 	recent.txt randomly getting nuked
@@ -41,7 +47,6 @@ miyoo
 
 - build an SD card image?
 
-- then tackle gambatte (use od/350 version as base?)
 - snap.miyoomini.bmp is broken? missing text, fills?
 	- use cat /dev/fb0 > snap.miyoomini.raw instead?
 	- if you save the video surface instead of the buffer surface it's upside down
@@ -50,6 +55,13 @@ miyoo
 
 - build own version of SDL that rotates on flip instead of hw blit
 	- that's going to be challenging if only because audio is mess
+	- there was progress on this
+		- video
+			- 32bpp HW surface for video mode
+			- whatever bpp SW surface for screen
+			- SDL_DOUBLEBUF for vsync
+		- audio
+			- we're telling it we're giving it stereo but it processes it as mono
 
 - there's a crackle when booting on mini
 	- THIS PROBLEM EXISTS ON STOCK
@@ -59,8 +71,6 @@ miyoo
 	- check keymon for audio init code?
 	- it could be from sdl audio starting up or pausing/resuming?
 		- I think after it happens volume is different
-
-- add charging icon on devices that support it
 
 why is initPlatform in common.h and not platform.h (it's implemented in platform.c so...)
 move screen init and flipping logic to platform? 
@@ -72,9 +82,6 @@ move screen init and flipping logic to platform?
 NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WIDTH, and SCREEN_HEIGHT are really determined at runtime!
 
 - shell script to copy updated builds to SD card
-	
-NOTE: new SD is incompatible with old SD auto launcher on stock dingux because of system path changes
-
 
 - figure out how to handle supporting multiple resolutions on the same platform in emulators
 	- scalers by resolution?
@@ -92,20 +99,12 @@ NOTE: new SD is incompatible with old SD auto launcher on stock dingux because o
 		- 1x, 2x, 3x
 	- retroarch is getting more and more appealing...port picoarch?
 - tweak text alignment per platform
-- update toolchains to use PLATFORM_OD instead of PLATFORM_RG350?
 
-- BUG: settings changes aren't being saved on the RG350M (or is it stockod as a whole? maybe rg350 was in a hardcoded path in settings?)
-
-- package up Trimui's toolchain folder and upload it to github for safekeeping?
-	- maybe do for all union toolchains?
-- build an SD card image
 - create the Union.sh launch installer
 	- Trimui/Mini don't need one, they have .tmp_update on SD
 	- RG300 has /home/retrofw
 	- I think RS-90 (and regular odbeta?) can use /etc/hostname?
 	- stock od by process of elimination?
-- create union forks of each emulator and apply my changes
-	- can't fork my own repos :facepalm:
 - make Union/MinUI logo a toggle?
 - add RGB10 Max 2 support (854x480)
 	same vertical alignments as 640x480
