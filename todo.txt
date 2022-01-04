@@ -1,17 +1,17 @@
 excuse the mess, this needs some serious pruning...
 
->>> submodule completed emulators and branch for union-platform
-	start with gambatte across the board for now
-
-Game Boy
-	origin	 https://github.com/shauninman/union-gambatte-dms (union)
-	upstream https://github.com/SnDream/gambatte-dms.git (master-rs90)
-
-	thinking about putting this in shared
-		want separate 2x and 1x settings defaults
-
 libmmenu
 	needs to handle 1x and 2x previews on platforms that support both
+
+Game Boy
+	shared
+		origin	 https://github.com/shauninman/union-gambatte-dms (union)
+		upstream https://github.com/SnDream/gambatte-dms.git (master-rs90)
+	trimui
+		origin	 https://github.com/shauninman/gambatte-dms (union-trimui)
+
+	want separate 2x and 1x defaults settings (2x should get the cool ones!)
+
 
 
 
