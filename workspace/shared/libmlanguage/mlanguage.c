@@ -91,7 +91,10 @@ void InitLanguage(Language* language) {
 		puts("Language host");
 		
 		if (exists(LanguagePath)) get_file(LanguagePath, language_name); // load preferred language name
-		else strcpy(language_name, kDefaultLanguage); // set language to default
+		else {
+			strcpy(language_name, kDefaultLanguage); // set language to default
+			put_file(LanguagePath, language_name);
+		}
 		trimTrailingNewlines(language_name); // just in case
 		
 		Language lang;
