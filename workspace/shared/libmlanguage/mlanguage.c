@@ -17,14 +17,14 @@
 static int exists(char* path) {
 	return access(path, F_OK)==0;
 }
-static void put_file(char* path, char* contents) {
+static void putFile(char* path, char* contents) {
 	FILE* file = fopen(path, "w");
 	if (file) {
 		fputs(contents, file);
 		fclose(file);
 	}
 }
-static void get_file(char* path, char* buffer) {
+static void getFile(char* path, char* buffer) {
 	FILE *file = fopen(path, "r");
 	if (file) {
 		fseek(file, 0L, SEEK_END);
@@ -90,10 +90,10 @@ void InitLanguage(Language* language) {
 	else { // doesn't exist, host
 		puts("Language host");
 		
-		if (exists(LanguagePath)) get_file(LanguagePath, language_name); // load preferred language name
+		if (exists(LanguagePath)) getFile(LanguagePath, language_name); // load preferred language name
 		else {
 			strcpy(language_name, kDefaultLanguage); // set language to default
-			put_file(LanguagePath, language_name);
+			putFile(LanguagePath, language_name);
 		}
 		trimTrailingNewlines(language_name); // just in case
 		

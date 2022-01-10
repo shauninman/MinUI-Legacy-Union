@@ -1,5 +1,19 @@
 excuse the mess, this needs some serious pruning...
 
+add deps to miyoomini toolchain proper
+
+audio is working correctly with custom SDL!
+	try to diagnose latency issues with SNDCTL_DSP_GETODELAY?
+	snapshots work again too!
+	try egg's luma fix with it
+	add in-place rotation in SDL_Flip() and SDL_FlipHWSurface()
+
+make Union.sh an installer on rg350
+	- and only install on stock OpenDingux
+
+figure out cross platform update mechanism
+	- just replace .system wholesale?
+
 figure out how to organize this document
 	by platform?
 	by console?
@@ -37,6 +51,9 @@ trimui
 		or just use alternate one it was copied from
 
 miyoo
+	hold power to power off ala rg350 family
+		that's a non-trivial change :sweat_smile:
+		but worth doing
 	recent.txt randomly getting nuked
 		possibly only when force to cut power?
 		or if I return to the main menu with no sd inserted?
@@ -44,8 +61,6 @@ miyoo
 	gambatte
 		sound latency
 		screen tearing
-
-- build an SD card image?
 
 - snap.miyoomini.bmp is broken? missing text, fills?
 	- use cat /dev/fb0 > snap.miyoomini.raw instead?

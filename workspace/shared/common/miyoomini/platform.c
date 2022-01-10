@@ -25,13 +25,29 @@ void quitPlatform(void) {
 	// buh
 }
 
+#define GOVERNOR_PATH "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"
+static char governor[128];
+
 void enterSleep(void) {
 	SetRawVolume(40); // range is 40-100 :facepalm:
 	SetRawBrightness(0);
+	
+	// save current governor (either ondemand or performance)
+	getFile(GOVERNOR_PATH, governor);
+	trimTrailingNewlines(governor);
+	
+	system("echo powersave > " GOVERNOR_PATH);
 }
 void exitSleep(void) {
 	SetVolume(GetVolume());
 	SetBrightness(GetBrightness());
+	
+	// restore previous governor
+	char cmd[128];
+	sprintf(cmd, "echo %s > %s", governor, GOVERNOR_PATH);
+	fprintf(stdout, "restoring governor %s.\n", governor);
+	
+	system(cmd);
 }
 
 int preventAutosleep(void) {
