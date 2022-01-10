@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <strings.h>
-#include <SDL/SDL.h>
+#include <string.h>
 
 #include <unistd.h>
 #include <mi_sys.h>
