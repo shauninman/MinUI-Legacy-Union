@@ -5,7 +5,7 @@
 
 # init_lcd
 cat /proc/ls
-sleep 0.25
+sleep 0.5
 
 # init backlight
 echo 0 > /sys/class/pwm/pwmchip0/export
@@ -34,6 +34,8 @@ killall keymon
 export LD_LIBRARY_PATH="$SYSTEM_PATH/lib:$LD_LIBRARY_PATH"
 export PATH="$SYSTEM_PATH/bin:$PATH"
 
+lumon # adjust lcd luma and saturation
+
 CHARGING=`cat /sys/devices/gpiochip0/gpio/gpio59/value`
 if [ "$CHARGING" == "1" ]; then
 	batmon
@@ -41,7 +43,7 @@ fi
 
 a=`ps | grep keymon | grep -v grep`
 if [ "$a" == "" ]; then
-	keymon & # &> "$LOGS_PATH/keymon.txt" &
+	keymon &
 fi
 
 a=`ps | grep mlanguage | grep -v grep`
@@ -56,11 +58,6 @@ mkdir -p "$SHARED_USERDATA_PATH/.minui"
 cd $(dirname "$0")
 
 touch /tmp/minui_exec && sync
-
-# overclock 
-# echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-# cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
-# cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
 while [ -f /tmp/minui_exec ]; do
 	echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor

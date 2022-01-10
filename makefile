@@ -32,6 +32,7 @@ rg350:
 
 miyoomini:
 	make common PLATFORM=$@
+	cp ./workspace/$@/lumon/lumon ./build/PAYLOAD/.system/$@/bin/
 	cp ./workspace/$@/batmon/batmon ./build/PAYLOAD/.system/$@/bin/
 	cp ./workspace/$@/third-party/DinguxCommander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
 	cp -r ./workspace/$@/third-party/DinguxCommander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
