@@ -1,7 +1,11 @@
 # trimui/makefile
+all: sys emu
+
 sys:
 	cd ./third-party/SDL-1.2 && ./make.sh
 	cd ../shared/third-party/DinguxCommander && make -j
+
+emu:
 	cd ./third-party/gambatte-dms && make
 
 clean:

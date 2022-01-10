@@ -181,17 +181,6 @@ int main (int argc, char *argv[]) {
 			}
 		}
 		
-		// TODO: fairly certain this is RS90 specific...
-		// // reset buttons on sleep
-		// if ((isPressed(kButtonSelect) && justPressed(kButtonStart)) || (isPressed(kButtonStart) && justPressed(kButtonSelect))) {
-		// 	for (int i=0; i<kButtonCount; i++) {
-		// 		buttons[i].just_pressed = 0;
-		// 		buttons[i].is_pressed = 0;
-		// 		buttons[i].just_released = 0;
-		// 	}
-		// 	continue;
-		// }
-		
 		// handle input
 		if (justPressed(kButtonPower)) {
 			chord = 0;
