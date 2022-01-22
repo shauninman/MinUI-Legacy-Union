@@ -31,3 +31,6 @@
 [submodule "workspace/shared/third-party/gambatte-dms"]
 	path = workspace/shared/third-party/gambatte-dms
 	url = git@github.com:shauninman/union-gambatte-dms.git
+[submodule "workspace/miyoomini/third-party/SDL-1.2"]
+	path = workspace/miyoomini/third-party/SDL-1.2
+	url = git@github.com:shauninman/SDL-1.2.git
