@@ -270,7 +270,7 @@ void Union_init(void) {
 					.y = 10*2,
 				},
 				.list = {
-					.row_count	= 5*2,
+					.row_count	= 5,
 					.y			= 38*2,
 					.ox			= 16*2,
 					.oy			= 4*2,
