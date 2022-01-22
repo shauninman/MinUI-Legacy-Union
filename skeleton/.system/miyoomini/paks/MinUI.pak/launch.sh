@@ -34,7 +34,7 @@ killall keymon
 export LD_LIBRARY_PATH="$SYSTEM_PATH/lib:$LD_LIBRARY_PATH"
 export PATH="$SYSTEM_PATH/bin:$PATH"
 
-lumon # adjust lcd luma and saturation
+lumon & # adjust lcd luma and saturation
 
 CHARGING=`cat /sys/devices/gpiochip0/gpio/gpio59/value`
 if [ "$CHARGING" == "1" ]; then
