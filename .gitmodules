@@ -34,3 +34,6 @@
 [submodule "workspace/miyoomini/third-party/SDL-1.2"]
 	path = workspace/miyoomini/third-party/SDL-1.2
 	url = git@github.com:shauninman/SDL-1.2.git
+[submodule "workspace/miyoomini/third-party/picogpsp"]
+	path = workspace/miyoomini/third-party/picogpsp
+	url = git@github.com:shauninman/picogpsp.git
