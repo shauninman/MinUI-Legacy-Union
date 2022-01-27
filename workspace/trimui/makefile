@@ -10,5 +10,5 @@ emu:
 
 clean:
 	cd ./third-party/SDL-1.2 && make distclean
-	cd ../shared/third-party/DinguxCommander && make -j
+	cd ../shared/third-party/DinguxCommander && make clean
 	cd ./third-party/gambatte-dms && make clean
