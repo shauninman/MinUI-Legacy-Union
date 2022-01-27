@@ -903,12 +903,7 @@ int main (int argc, char *argv[]) {
 	InitSettings();
 	InitLanguage(&lang);
 	
-#if defined PLATFORM_MIYOOMINI
-	SDL_Surface* video = SDL_SetVideoMode(Screen.width, Screen.height, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-	SDL_Surface* screen = SDL_CreateRGBSurface(SDL_HWSURFACE, Screen.width, Screen.height, 32, 0,0,0,0);
-#else
 	SDL_Surface* screen = SDL_SetVideoMode(Screen.width, Screen.height, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
-#endif
 	
 	GFX_init(lang.CJK!=NULL);
 	GFX_ready();
@@ -1209,12 +1204,7 @@ int main (int argc, char *argv[]) {
 			if (stack->count>1) {
 				GFX_blitButton(screen, "B", lang.back, -(Screen.buttons.right+button_width+Screen.buttons.gutter),Screen.buttons.top, Screen.button.text.ox_B);
 			}
-#ifdef PLATFORM_MIYOOMINI
-			SDL_BlitSurface(screen, NULL, video, NULL);
-			SDL_Flip(video);
-#else
 			SDL_Flip(screen);
-#endif
 		}
 		
 		// slow down to 60fps
@@ -1230,18 +1220,11 @@ int main (int argc, char *argv[]) {
 	SDL_SaveBMP_RW(screen, out, 1);
 	
 	SDL_FillRect(screen, NULL, 0);
-#ifdef PLATFORM_MIYOOMINI
-	SDL_BlitSurface(screen, NULL, video, NULL);
-	SDL_Flip(video);
-#else
 	SDL_Flip(screen);
-#endif
 				
 	SDL_FreeSurface(logo);
 #ifdef PLATFORM_RS90
 	SDL_FreeSurface(btn_select_start);
-#elif defined PLATFORM_MIYOOMINI
-	SDL_FreeSurface(screen);
 #endif
 	
 	Menu_quit();
