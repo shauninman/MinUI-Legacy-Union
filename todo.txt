@@ -1,18 +1,16 @@
 excuse the mess, this needs some serious pruning...
 
-add deps to miyoomini toolchain proper
+remove miyoomini specific fixes from commander
+	just use shared version
+	needs scaling still (super blurry)
 
-audio is working correctly with custom SDL!
-	try to diagnose latency issues with SNDCTL_DSP_GETODELAY?
-	snapshots work again too!
-	try egg's luma fix with it
-	add in-place rotation in SDL_Flip() and SDL_FlipHWSurface()
 
 make Union.sh an installer on rg350
 	- and only install on stock OpenDingux
 
 figure out cross platform update mechanism
 	- just replace .system wholesale?
+	- what if the user has added languages? or deleted unused platforms?
 
 figure out how to organize this document
 	by platform?
@@ -21,6 +19,7 @@ figure out how to organize this document
 
 libmmenu
 	needs to handle 1x and 2x previews on platforms that support both
+	needs to handle 2x lcd scaling that produces all red preview images
 
 Game Boy
 	shared
@@ -28,6 +27,7 @@ Game Boy
 		upstream https://github.com/SnDream/gambatte-dms.git (master-rs90)
 	trimui
 		origin	 https://github.com/shauninman/gambatte-dms (union-trimui)
+		upstream https://github.com/bardeci/gambatte-dms.git
 
 	want to separate 2x and 1x defaults settings (2x should get the cool ones!)
 
@@ -59,8 +59,8 @@ miyoo
 		or if I return to the main menu with no sd inserted?
 			no that's not it
 	gambatte
-		sound latency
-		screen tearing
+		
+	
 
 - snap.miyoomini.bmp is broken? missing text, fills?
 	- use cat /dev/fb0 > snap.miyoomini.raw instead?
