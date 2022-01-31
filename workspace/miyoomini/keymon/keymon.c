@@ -18,6 +18,7 @@
 
 //	Button Defines
 #define	BUTTON_MENU		KEY_ESC
+#define	BUTTON_POWER	KEY_HOME
 #define	BUTTON_SELECT	KEY_RIGHTCTRL
 #define	BUTTON_START	KEY_ENTER
 #define	BUTTON_L1		KEY_E
@@ -115,7 +116,6 @@ int main (int argc, char *argv[]) {
 	register uint32_t val;
 	register uint32_t pressedbuttons = 0;
 	register uint32_t button_flag = 0;
-	uint32_t repeat_START = 0; //	for suspend
 	uint32_t repeat_LR = 0;
 	while( read(input_fd, &ev, sizeof(ev)) == sizeof(ev) ) {
 		val = ev.value;
@@ -133,7 +133,6 @@ int main (int argc, char *argv[]) {
 		case BUTTON_START:
 			if ( val != REPEAT ) {
 				button_flag = button_flag & (~START) | (val<<START_BIT);
-				repeat_START = (pressedbuttons == 1 ? val : 0);
 			} 
 			break;
 		case BUTTON_L1:

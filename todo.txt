@@ -4,6 +4,8 @@ remove miyoomini specific fixes from commander
 	just use shared version
 	needs scaling still (super blurry)
 
+get eggs latest changes to picogpsp
+	also check neonloops changes to picoarch
 
 make Union.sh an installer on rg350
 	- and only install on stock OpenDingux
@@ -51,9 +53,11 @@ trimui
 		or just use alternate one it was copied from
 
 miyoo
+	menu + power to kill foreground application
 	hold power to power off ala rg350 family
 		that's a non-trivial change :sweat_smile:
 		but worth doing
+		no uinput :sob:
 	recent.txt randomly getting nuked
 		possibly only when force to cut power?
 		or if I return to the main menu with no sd inserted?
