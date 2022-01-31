@@ -1,11 +1,7 @@
 excuse the mess, this needs some serious pruning...
 
-remove miyoomini specific fixes from commander
-	just use shared version
-	needs scaling still (super blurry)
-
 get eggs latest changes to picogpsp
-	also check neonloops changes to picoarch
+	neon 4x
 
 make Union.sh an installer on rg350
 	- and only install on stock OpenDingux
@@ -26,14 +22,17 @@ libmmenu
 Game Boy
 	shared
 		origin	 https://github.com/shauninman/union-gambatte-dms (union)
-		upstream https://github.com/SnDream/gambatte-dms.git (master-rs90)
+		upstream https://github.com/SnDream/gambatte-dms (master-rs90)
 	trimui
 		origin	 https://github.com/shauninman/gambatte-dms (union-trimui)
-		upstream https://github.com/bardeci/gambatte-dms.git
+		upstream https://github.com/bardeci/gambatte-dms
 
 	want to separate 2x and 1x defaults settings (2x should get the cool ones!)
 
-
+Game Boy Advance
+	miyoomini/trimui
+		origin   https://github.com/shauninman/picogpsp (union-miyoomini)
+		upstream https://git.crowdedwood.com/picogpsp/ (pico-fe)
 
 
 
@@ -64,38 +63,7 @@ miyoo
 			no that's not it
 	gambatte
 		
-	
-
-- snap.miyoomini.bmp is broken? missing text, fills?
-	- use cat /dev/fb0 > snap.miyoomini.raw instead?
-	- if you save the video surface instead of the buffer surface it's upside down
-	- maybe it won't matter for save state screenshots?
-		- doesn't matter for save states
-
-- build own version of SDL that rotates on flip instead of hw blit
-	- that's going to be challenging if only because audio is mess
-	- there was progress on this
-		- video
-			- 32bpp HW surface for video mode
-			- whatever bpp SW surface for screen
-			- SDL_DOUBLEBUF for vsync
-		- audio
-			- we're telling it we're giving it stereo but it processes it as mono
-
-- there's a crackle when booting on mini
-	- THIS PROBLEM EXISTS ON STOCK
-	- also when opening the native menu in gambatte
-	- try setting volume to 40 in MinUI.pak/launch.sh
-		- no effect
-	- check keymon for audio init code?
-	- it could be from sdl audio starting up or pausing/resuming?
-		- I think after it happens volume is different
-
 why is initPlatform in common.h and not platform.h (it's implemented in platform.c so...)
-move screen init and flipping logic to platform? 
-	maybe there's a struct with member functions so we only need to override the default behavior on change?
-	or even just a function pointer instead?
-
 
 
 NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WIDTH, and SCREEN_HEIGHT are really determined at runtime!
@@ -135,21 +103,13 @@ NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WID
 		stock: 	/sys/devices/platform/jz-lcd.0/sharpness_upscaling
 		beta:	SDL_VIDEO_KMSDRM_SCALING_SHARPNESS
 
-trimui
-	see if I can export gpio to find charging status?
-		67 is USB Power
-	not seeing hte interface for this in sys
-
-- drop RS-90 support?
-	- yes, 300 or mini will replace that form factor
-- drop retrofw/RG300 support?
-	- yes, seems to be in a state of unstable upheaval
-
 BUILDING GAMBATTE
 	PLATFORM=gcw0 ./build_minui.sh
 	PLATFORM=miyoomini ./build_minui.sh
 	make (trimui)
 
+BUILDING PICOGPSP
+	make -f Makefile.miyoomini
 
 SUBPIXEL SIMULATION SCALERS
 	subpixel separation is pretty simple in Photoshop
@@ -157,3 +117,11 @@ SUBPIXEL SIMULATION SCALERS
 		2. adjust the Curves to remove the other two colors, eg. remove green and blue from red, etc
 		3. mask with your subpixel shape
 		4. fill excess with black
+
+
+
+
+removing submodules:
+	git submodule deinit <path_to_submodule>
+	git rm <path_to_submodule>
+	rm -rf .git/modules/<path_to_submodule>
