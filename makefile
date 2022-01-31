@@ -34,9 +34,11 @@ miyoomini:
 	make common PLATFORM=$@
 	cp ./workspace/$@/lumon/lumon ./build/PAYLOAD/.system/$@/bin/
 	cp ./workspace/$@/batmon/batmon ./build/PAYLOAD/.system/$@/bin/
-	cp ./workspace/$@/third-party/DinguxCommander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
-	cp -r ./workspace/$@/third-party/DinguxCommander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp ./workspace/$@/third-party/SDL-1.2/build/.libs/libSDL-1.2.so.0.11.5 ./build/PAYLOAD/.system/$@/lib/libSDL-1.2.so.0
+	cp ./workspace/shared/third-party/DinguxCommander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
+	cp -r ./workspace/shared/third-party/DinguxCommander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
 	cp ./workspace/shared/third-party/gambatte-dms/build/$@/gambatte ./build/PAYLOAD/.system/$@/paks/Emus/GB.pak/
+	cp ./workspace/$@/third-party/picogpsp/picogpsp ./build/PAYLOAD/.system/$@/paks/Emus/GBA.pak/
 	
 shell:
 	make -f toolchain.makefile PLATFORM=$(PLATFORM)
