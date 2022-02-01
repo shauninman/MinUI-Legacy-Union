@@ -1,7 +1,12 @@
 excuse the mess, this needs some serious pruning...
 
-get eggs latest changes to picogpsp
-	neon 4x
+NEXT:
+	pause trimui/rg350 (mini really replaces both in my mind)
+	pokemini
+		hook up SDLK_ESCAPE & SDLK_POWER to menu
+	bring GBA (back) to trimui/rg350
+
+finish stubbing out skeleton and the root makefile
 
 make Union.sh an installer on rg350
 	- and only install on stock OpenDingux
@@ -18,6 +23,8 @@ figure out how to organize this document
 libmmenu
 	needs to handle 1x and 2x previews on platforms that support both
 	needs to handle 2x lcd scaling that produces all red preview images
+		emulators can provide an optional full screen surface for a preview image
+			use to remove scaling effects and/or filters for better resizing
 
 Game Boy
 	shared
@@ -34,11 +41,19 @@ Game Boy Advance
 		origin   https://github.com/shauninman/picogpsp (union-miyoomini)
 		upstream https://git.crowdedwood.com/picogpsp/ (pico-fe)
 
+Pokémon mini
+	
+	
+Nintendo
+	
+	
+Super NES
+	
+	
+PlayStation
+	
+	
 
-
-
-
-finish stubbing out skeleton and the root makefile
 
 
 

@@ -1,6 +1,6 @@
 # Union/makefile
 
-all: setup trimui rg350 miyoomini
+all: setup miyoomini # trimui rg350
 
 setup:
 	mkdir -p ./build
