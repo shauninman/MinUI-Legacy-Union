@@ -74,7 +74,7 @@ static char LanguagesPath[256];
 
 void InitLanguage(Language* language) {
 	sprintf(PlatformRoot, "%s", getenv("SDCARD_PATH"));
-	sprintf(LanguagePath, "%s/.userdata/language.txt", PlatformRoot);
+	sprintf(LanguagePath, "%s/.userdata/shared/language.txt", PlatformRoot);
 	sprintf(LanguagesPath, "%s/.system/shared/languages", PlatformRoot);
 	
 	shm_fd = shm_open(SHM_KEY, O_RDWR | O_CREAT | O_EXCL, 0644); // see if it exists

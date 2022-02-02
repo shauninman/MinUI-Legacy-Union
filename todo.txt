@@ -1,10 +1,10 @@
 excuse the mess, this needs some serious pruning...
 
 NEXT:
-	pause trimui/rg350 (mini really replaces both in my mind)
+	move /.userdata/language.txt into /.userdata/shared/
+	add eggs screenshot tool
 	pokemini
-		hook up SDLK_ESCAPE & SDLK_POWER to menu
-	bring GBA (back) to trimui/rg350
+		audio is slow
 
 finish stubbing out skeleton and the root makefile
 
