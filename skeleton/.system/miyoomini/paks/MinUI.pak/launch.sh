@@ -59,7 +59,9 @@ mkdir -p "$SHARED_USERDATA_PATH/.minui"
 DATETIME_PATH=$SHARED_USERDATA_PATH/datetime.txt
 if [ -f "$DATETIME_PATH" ]; then
 	DATETIME=`cat "$DATETIME_PATH"`
-	# DATETIME=$((DATETIME + 6 * 60 * 60))
+	date +'%F %T' -s "$DATETIME"
+	DATETIME=`date +'%s'`
+	DATETIME=$((DATETIME + 6 * 60 * 60))
 	date -s "@$DATETIME"
 fi
 
@@ -72,7 +74,7 @@ while [ -f /tmp/minui_exec ]; do
 
 	"./MinUI" &> "$LOGS_PATH/MinUI.txt"
 	
-	echo `date +'%s'` > "$DATETIME_PATH"
+	echo `date +'%F %T'` > "$DATETIME_PATH"
 	echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 	sync
 
@@ -84,7 +86,7 @@ while [ -f /tmp/minui_exec ]; do
 		rm -f $NEXT
 		eval $CMD
 		
-		echo `date +'%s'` > "$DATETIME_PATH"
+		echo `date +'%F %T'` > "$DATETIME_PATH"
 		sync
 	fi
 	
