@@ -39,6 +39,7 @@ miyoomini:
 	cp -r ./workspace/shared/third-party/DinguxCommander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
 	cp ./workspace/shared/third-party/gambatte-dms/build/$@/gambatte ./build/PAYLOAD/.system/$@/paks/Emus/GB.pak/
 	cp ./workspace/$@/third-party/picogpsp/picogpsp ./build/PAYLOAD/.system/$@/paks/Emus/GBA.pak/
+	cp ./workspace/shared/third-party/pokemini/platform/miyoomini/pokemini ./build/PAYLOAD/.system/$@/paks/Emus/PKM.pak/
 	
 shell:
 	make -f toolchain.makefile PLATFORM=$(PLATFORM)

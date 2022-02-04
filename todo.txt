@@ -1,10 +1,17 @@
 excuse the mess, this needs some serious pruning...
 
 NEXT:
-	move /.userdata/language.txt into /.userdata/shared/
+	arch
+		pico
+			remove libpng16 (see gpsp)
+		retro
+			add fprintf
+			maybe turn on VIDEO_DEBUG in custom SDL
+
+	is boot time slowing down?
+		is it the setting of time?
+		if so can it be moved to a separate script and run with &?
 	add eggs screenshot tool
-	pokemini
-		audio is slow
 
 finish stubbing out skeleton and the root makefile
 
