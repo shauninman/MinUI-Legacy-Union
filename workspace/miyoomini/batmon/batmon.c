@@ -38,12 +38,29 @@ void* chargingThread(void* arg) {
 	}
 }
 
+#define	BUTTON_L1		KEY_E
+#define	BUTTON_R1		KEY_T
+#define	BUTTON_L2		KEY_TAB
+#define	BUTTON_R2		KEY_BACKSPACE
+
+static int launch = 0;
 static int input_fd;
 static pthread_t input_pt;
 void* inputThread(void* arg) {
 	struct input_event	event;
+	uint32_t L_pressed = 0;
+	uint32_t R_pressed = 0;
 	while (read(input_fd, &event, sizeof(event))==sizeof(event)) {
+		if (event.type!=EV_KEY || event.value>1) continue;
 		if (event.type==EV_KEY) screenOn();
+		
+		if (event.code==BUTTON_L1) L_pressed = event.value;
+		else if (event.code==BUTTON_R1) R_pressed = event.value;
+		else if (event.code==BUTTON_L2 || event.code==BUTTON_R2) continue;
+		else if (L_pressed && R_pressed && event.value>0) {
+			launch = 1;
+			is_charging = 0;
+		}
 	}	
 }
 
@@ -90,11 +107,8 @@ int main(void) {
 	pthread_create(&input_pt, NULL, &inputThread, NULL);
 	pthread_create(&charging_pt, NULL, &chargingThread, NULL);
 	
-	while (is_charging) {
-		if (screen_on) {
-			unsigned long now = SDL_GetTicks();
-			if (now-screen_start>=3000) screenOff();
-		}
+	while (!launch && is_charging) {
+		if (screen_on && SDL_GetTicks()-screen_start>=3000) screenOff();
 	}
 	
 	close(input_fd);
@@ -108,7 +122,7 @@ int main(void) {
 	munmap(fb0_map, map_size);
 	close(fb0_fd);
 	
-	system("reboot");
+	if (!launch) system("reboot");
 	
     return EXIT_SUCCESS;
 }
