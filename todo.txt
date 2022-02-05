@@ -1,17 +1,14 @@
 excuse the mess, this needs some serious pruning...
 
 NEXT:
+	snes is next
 	arch
 		pico
 			remove libpng16 (see gpsp)
-		retro
-			add fprintf
-			maybe turn on VIDEO_DEBUG in custom SDL
+			got it working :tada:
 
 	is boot time slowing down?
-		is it the setting of time?
-		if so can it be moved to a separate script and run with &?
-	add eggs screenshot tool
+		is it the additional systems I've added?
 
 finish stubbing out skeleton and the root makefile
 
