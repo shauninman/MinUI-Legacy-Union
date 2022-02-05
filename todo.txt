@@ -2,13 +2,12 @@ excuse the mess, this needs some serious pruning...
 
 NEXT:
 	snes is next
-	arch
-		pico
-			remove libpng16 (see gpsp)
-			got it working :tada:
+	picoarch
+		remove libpng16 (see gpsp)
+		got it working :tada:
 
 	is boot time slowing down?
-		is it the additional systems I've added?
+		is it just the addition of new system paks?
 
 finish stubbing out skeleton and the root makefile
 
