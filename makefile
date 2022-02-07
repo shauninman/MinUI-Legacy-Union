@@ -6,6 +6,7 @@ setup:
 	mkdir -p ./build
 	cp -R ./skeleton/. ./build/PAYLOAD
 	cd ./build && find . -type f -name '.keep' -delete
+	cd ./build && find . -type f -name '.DS_Store' -delete
 	cp -R ./workspace/shared/libmlanguage/languages ./build/PAYLOAD/.system/shared
 
 common:

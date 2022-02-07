@@ -9,6 +9,7 @@ build/
 -old/
 -test/
 Test/
+picoarch/
 
 batmon
 !batmon/
@@ -16,5 +17,4 @@ lumon
 !lumon/
 keymon
 !keymon/
-picoarch/
 
