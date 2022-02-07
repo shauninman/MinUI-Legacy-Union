@@ -10,8 +10,9 @@ typedef enum MenuReturnStatus {
 	kStatusExitGame = 31,
 } MenuReturnStatus;
 
-typedef MenuReturnStatus (*ShowMenu_t)(char* rom_path, char* save_path_template);
-MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template);
+typedef struct SDL_Surface SDL_Surface;
+typedef MenuReturnStatus (*ShowMenu_t)(char* rom_path, char* save_path_template, SDL_Surface* optional_snapshot);
+MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface* optional_snapshot);
 
 typedef int (*ResumeSlot_t)(void);
 int ResumeSlot(void);

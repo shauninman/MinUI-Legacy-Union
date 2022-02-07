@@ -130,7 +130,7 @@ static SDL_Surface* createThumbnail(SDL_Surface* src_img) {
 }
 
 
-MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
+MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface* optional_snapshot) {
 	screen = SDL_GetVideoSurface();
 	// if (SDL_MUSTLOCK(screen)) SDL_UnlockSurface(screen); // fix for regba?
 	
@@ -379,7 +379,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template) {
 				break;
 				case kItemSave:
 					status = kStatusSaveSlot + slot;
-					SDL_Surface* preview = createThumbnail(copy);
+					SDL_Surface* preview = createThumbnail(optional_snapshot ? optional_snapshot : copy);
 					SDL_RWops* out = SDL_RWFromFile(bmp_path, "wb");
 					SDL_SaveBMP_RW(preview, out, 1);
 					SDL_FreeSurface(preview);

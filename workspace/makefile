@@ -21,7 +21,7 @@ lib:
 	
 sys: lib
 	cd ./$(PLATFORM)/keymon && make
-	cd ./$(PLATFORM) && make sys
+	cd ./$(PLATFORM) && make
 	cd ./shared/minui && make
 
 clean:
