@@ -1,7 +1,6 @@
 excuse the mess, this needs some serious pruning...
 
 NEXT:
-	make clean in the Union/makefile doesn't clean individual projects, only deletes build
 	snes is next
 		wanna finish my chronotrigger replay :lolsob:
 	picoarch
@@ -12,6 +11,8 @@ NEXT:
 		is it just the addition of new system paks?
 
 finish stubbing out skeleton and the root makefile
+
+bring over work from UnionAssets/source
 
 make Union.sh an installer on rg350
 	- and only install on stock OpenDingux
@@ -25,6 +26,8 @@ figure out how to organize this document
 	by platform?
 	by console?
 	by repo?
+
+make clean in the Union/makefile doesn't clean individual projects, only deletes build
 
 libmmenu
 	needs to handle 1x and 2x previews on platforms that support both
@@ -40,8 +43,6 @@ Game Boy
 		origin	 https://github.com/shauninman/gambatte-dms (union-trimui)
 		upstream https://github.com/bardeci/gambatte-dms
 
-	want to separate 2x and 1x defaults settings (2x should get the cool ones!)
-
 Game Boy Advance
 	miyoomini/trimui
 		origin   https://github.com/shauninman/picogpsp (union-miyoomini)
@@ -53,7 +54,7 @@ Pokémon mini
 Nintendo
 	
 	
-Super NES
+Super Nintendo
 	
 	
 PlayStation
@@ -82,7 +83,6 @@ miyoo
 		possibly only when force to cut power?
 		or if I return to the main menu with no sd inserted?
 			no that's not it
-	gambatte
 		
 why is initPlatform in common.h and not platform.h (it's implemented in platform.c so...)
 
@@ -114,15 +114,23 @@ NOTE: platform is still determined at compile time, only SDCARD_PATH, SCREEN_WID
 	- I think RS-90 (and regular odbeta?) can use /etc/hostname?
 	- stock od by process of elimination?
 - make Union/MinUI logo a toggle?
-- add RGB10 Max 2 support (854x480)
+- add RGB10 Max 2 support? (854x480)
 	same vertical alignments as 640x480
 	just make sure edge pinning is setup correctly for horizontal alignments
+	this can coexist with Trimui (because we can modify NAND) 
+		might not be possible on Miyoo Mini...without modifying retrooz :thinking_face:
 
 - force nearest neighbor on od stock/beta?
 	- see https://git.libretro.com/libretro/RetroArch/-/blob/master/dingux/dingux_utils.c
 	- set to 0 for nn
 		stock: 	/sys/devices/platform/jz-lcd.0/sharpness_upscaling
 		beta:	SDL_VIDEO_KMSDRM_SCALING_SHARPNESS
+
+
+
+this BUILDING info is also preserved in each 
+root platform makefile so this will probably 
+go out of date quickly...
 
 BUILDING GAMBATTE
 	PLATFORM=gcw0 ./build_minui.sh
@@ -131,6 +139,12 @@ BUILDING GAMBATTE
 
 BUILDING PICOGPSP
 	make -f Makefile.miyoomini
+
+BUILDING POKEMINI
+	cd platform/<PLATFORM> && make -j
+
+
+
 
 SUBPIXEL SIMULATION SCALERS
 	subpixel separation is pretty simple in Photoshop
