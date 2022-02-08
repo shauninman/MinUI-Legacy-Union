@@ -59,7 +59,7 @@ void* inputThread(void* arg) {
 		else if (event.code==BUTTON_L2 || event.code==BUTTON_R2) continue;
 		else if (L_pressed && R_pressed && event.value>0) {
 			launch = 1;
-			is_charging = 0;
+			// is_charging = 0; // not necessary anymore
 		}
 	}	
 }
@@ -98,13 +98,9 @@ int main(void) {
 	
 	screenOn();
 	
-	// turn on screen for 3 seconds
-	
-	// echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
-	
 	input_fd = open("/dev/input/event0", O_RDONLY);
-	
 	pthread_create(&input_pt, NULL, &inputThread, NULL);
+	
 	pthread_create(&charging_pt, NULL, &chargingThread, NULL);
 	
 	while (!launch && is_charging) {

@@ -32,7 +32,7 @@ int main(void) {
 	
 	MI_DISP_SetLcdParam(dev,&params);
 	
-	while (1);
+	while (1) pause();
 	
 	// MI_DISP_Disable(dev);
 }

@@ -1,6 +1,8 @@
 excuse the mess, this needs some serious pruning...
 
 NEXT:
+	custom SDL
+		see about switching all surfaces to hardware with eggs latest GFX (rev7 atm)
 	snes is next
 		wanna finish my chronotrigger replay :lolsob:
 	picoarch
@@ -11,6 +13,13 @@ NEXT:
 		is it just the addition of new system paks?
 
 finish stubbing out skeleton and the root makefile
+
+update the common auto.sh to hardcode values for platforms with known values
+	eg. trimui is 320x240 /mnt/SDCARD
+	eg. miyoomini is 640x480 /mnt/SDCARD
+	...opendingux is the problematic outlier
+
+create a second macOS user and test clone/cd/make to produce build/PAYLOAD
 
 bring over work from UnionAssets/source
 
@@ -31,9 +40,9 @@ make clean in the Union/makefile doesn't clean individual projects, only deletes
 
 libmmenu
 	needs to handle 1x and 2x previews on platforms that support both
-	needs to handle 2x lcd scaling that produces all red preview images
-		emulators can provide an optional full screen surface for a preview image
-			use to remove scaling effects and/or filters for better resizing
+	can I highlight the last used save somehow?
+		draw the other saves at 50%?
+		an icon overlay?
 
 Game Boy
 	shared
@@ -63,7 +72,10 @@ PlayStation
 
 
 
+ISSUES
 
+changing to mono audio hangs gambatte on next launch?
+screen too dark (raise high end of brightness ramp for darker screens)
 
 
 
