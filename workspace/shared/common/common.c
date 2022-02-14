@@ -103,8 +103,8 @@ UnionScreen Screen = {
 			.ox			= 16,
 			.oy			= 4,
 			.row_height	= 32,
-			.alt_ox		= 0, // from right
-			.alt_oy		= 0,
+			.alt_ox		= 32, // from right
+			.alt_oy		= 10,
 		},
 	},
 	
@@ -275,8 +275,8 @@ void Union_init(void) {
 					.ox			= 16*2,
 					.oy			= 4*2,
 					.row_height	= 32*2,
-					.alt_ox		= 0, // from right
-					.alt_oy		= 0,
+					.alt_ox		= 32*2, // from right
+					.alt_oy		= 10*2,
 				},
 			},
 	
@@ -714,7 +714,7 @@ void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, int conflict, in
 		SDL_FreeSurface(text);
 		
 		if (has_alt) {
-			// TODO: tmp
+			// TODO: tmp?
 			SDL_BlitSurface(use_alt ? alt_enabled : alt_disabled, NULL, surface, &(SDL_Rect){Screen.width-Screen.main.list.alt_ox, Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.alt_oy});
 		}
 	}
