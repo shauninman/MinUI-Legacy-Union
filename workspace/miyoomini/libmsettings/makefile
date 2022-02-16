@@ -16,13 +16,13 @@ SYSROOT     := $(shell $(CC) --print-sysroot)
 
 INCLUDEDIR = $(SYSROOT)/usr/include
 CFLAGS = -I$(INCLUDEDIR)
-LDFLAGS = -s -ldl -lrt
+LDFLAGS = -lmi_sys -lmi_ao -lcam_os_wrapper -ldl -lrt -s
 
 OPTM=-Ofast
 
 build: 
-	$(CC) -c -Werror -fpic "$(TARGET).c" -Wl,--no-as-needed -ldl -lrt
-	$(CC) -shared -o "lib$(TARGET).so" "$(TARGET).o"
+	$(CC) -c -Werror -fpic "$(TARGET).c" -Wl,--no-as-needed $(LDFLAGS)
+	$(CC) -shared -o "lib$(TARGET).so" "$(TARGET).o" $(LDFLAGS)
 	cp "$(TARGET).h" "$(PREFIX)/include"
 	cp "lib$(TARGET).so" "$(PREFIX)/lib"
 clean:

@@ -894,7 +894,7 @@ int main (int argc, char *argv[]) {
 	Union_init();
 	initPlatform();
 	
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO); // must init audio before settings for miyoomini
 	TTF_Init();
 	
 	SDL_ShowCursor(0);

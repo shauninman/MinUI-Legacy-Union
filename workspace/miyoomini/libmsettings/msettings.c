@@ -8,7 +8,10 @@
 #include <dlfcn.h>
 #include <string.h>
 
+#include <mi_ao.h>
+
 #include "msettings.h"
+
 
 ///////////////////////////////////////
 
@@ -34,6 +37,9 @@ static int is_host = 0;
 static int shm_size = sizeof(Settings);
 
 void InitSettings(void) {
+	MI_AO_Enable(0);
+	MI_AO_EnableChn(0,0);
+	
 	sprintf(SettingsPath, "%s/.userdata/%s/msettings.bin", getenv("SDCARD_PATH"), getenv("SYSTEM_NAME"));
 	
 	shm_fd = shm_open(SHM_KEY, O_RDWR | O_CREAT | O_EXCL, 0644); // see if it exists
@@ -61,10 +67,15 @@ void InitSettings(void) {
 		}
 	}
 	printf("brightness: %i\nspeaker: %i\n", settings->brightness, settings->speaker);
+	SetVolume(GetVolume());
 }
 void QuitSettings(void) {
 	munmap(settings, shm_size);
 	if (is_host) shm_unlink(SHM_KEY);
+	
+	SetRawVolume(-60);
+	MI_AO_DisableChn(0,0);
+	MI_AO_Disable(0);
 }
 static inline void SaveSettings(void) {
 	int fd = open(SettingsPath, O_CREAT|O_WRONLY, 0644);
@@ -88,7 +99,7 @@ int GetVolume(void) { // 0-20
 	return settings->speaker;
 }
 void SetVolume(int value) {
-	int raw = 40 + value * 3;
+	int raw = -60 + value * 3;
 	SetRawVolume(raw);
 	settings->speaker = value;
 	SaveSettings();
@@ -101,10 +112,8 @@ void SetRawBrightness(int val) {
 		close(fd);
 	}
 }
-void SetRawVolume(int val) {
-	char cmd[256];
-	sprintf(cmd, "tinymix set 6 %i", val);
-	system(cmd);
+void SetRawVolume(int db) {
+	MI_AO_SetVolume(0,db);
 }
 
 int GetJack(void) {

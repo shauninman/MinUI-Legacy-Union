@@ -107,7 +107,7 @@ int main (int argc, char *argv[]) {
 	
 	// Set Initial Volume / Brightness
 	InitSettings();
-	SetVolume(GetVolume());
+	SetVolume(GetVolume()); // NOTE: does nothing here since we haven't initialized SDL/MIAO audio yet
 	SetBrightness(GetBrightness());
 	
 	input_fd = open("/dev/input/event0", O_RDONLY);

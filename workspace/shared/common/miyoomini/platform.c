@@ -29,7 +29,7 @@ void quitPlatform(void) {
 static char governor[128];
 
 void enterSleep(void) {
-	SetRawVolume(40); // range is 40-100 :facepalm:
+	SetRawVolume(-60);
 	SetRawBrightness(0);
 	
 	// save current governor (either ondemand or performance)
