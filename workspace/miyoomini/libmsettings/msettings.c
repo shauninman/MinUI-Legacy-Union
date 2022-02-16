@@ -67,7 +67,6 @@ void InitSettings(void) {
 		}
 	}
 	printf("brightness: %i\nspeaker: %i\n", settings->brightness, settings->speaker);
-	SetVolume(GetVolume());
 }
 void QuitSettings(void) {
 	munmap(settings, shm_size);
