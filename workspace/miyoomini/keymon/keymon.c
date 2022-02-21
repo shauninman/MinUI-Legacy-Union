@@ -18,7 +18,7 @@
 
 //	Button Defines
 #define	BUTTON_MENU		KEY_ESC
-#define	BUTTON_POWER	KEY_HOME
+#define	BUTTON_POWER	KEY_POWER
 #define	BUTTON_SELECT	KEY_RIGHTCTRL
 #define	BUTTON_START	KEY_ENTER
 #define	BUTTON_L1		KEY_E
@@ -107,8 +107,6 @@ int main (int argc, char *argv[]) {
 	
 	// Set Initial Volume / Brightness
 	InitSettings();
-	SetVolume(GetVolume());
-	SetBrightness(GetBrightness());
 	
 	input_fd = open("/dev/input/event0", O_RDONLY);
 
@@ -116,6 +114,8 @@ int main (int argc, char *argv[]) {
 	register uint32_t val;
 	register uint32_t pressedbuttons = 0;
 	register uint32_t button_flag = 0;
+	register uint32_t menu_pressed = 0;
+	register uint32_t power_pressed = 0;
 	uint32_t repeat_LR = 0;
 	while( read(input_fd, &ev, sizeof(ev)) == sizeof(ev) ) {
 		val = ev.value;
@@ -125,6 +125,12 @@ int main (int argc, char *argv[]) {
 			if (( val == RELEASED )&&( pressedbuttons > 0 )) pressedbuttons--;
 		}
 		switch (ev.code) {
+		case BUTTON_MENU:
+			if ( val != REPEAT ) menu_pressed = val;
+			break;
+		case BUTTON_POWER:
+			if ( val != REPEAT ) power_pressed = val;
+			break;
 		case BUTTON_SELECT:
 			if ( val != REPEAT ) {
 				button_flag = button_flag & (~SELECT) | (val<<SELECT_BIT);
@@ -189,6 +195,11 @@ int main (int argc, char *argv[]) {
 			break;
 		default:
 			break;
+		}
+		
+		if (menu_pressed && power_pressed) {
+			menu_pressed = power_pressed = 0;
+			system("sync && reboot"); // works but overkill
 		}
 	}
 	ERROR("Failed to read input event");
