@@ -473,19 +473,15 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 				
 				GFX_blitText(screen, item, 2, Screen.menu.list.x, Screen.menu.list.y+(i*Screen.menu.list.line_height)+Screen.menu.list.oy, 0, color, i==selected);
 				
-				if (i==kItemSave || i==kItemLoad) { // || (total_discs && i==kItemContinue)) {
+				if (i==kItemSave || i==kItemLoad || (total_discs && i==kItemContinue)) {
 					SDL_BlitSurface(i==selected?arrow_highlighted:arrow, NULL, screen, &(SDL_Rect){Screen.menu.window.x+Screen.menu.window.width-(arrow->w+Screen.menu.arrow.ox),Screen.menu.list.y+(i*Screen.menu.list.line_height)+Screen.menu.arrow.oy});
 				}
 			}
 			
 			// disc change
 			if (total_discs && selected==kItemContinue) {
-				// TODO: 
-				// SDL_BlitSurface(ui_disc_bg, NULL, screen, &(SDL_Rect){148,71,0,0});
-				//
-				// text = TTF_RenderUTF8_Blended(font, disc_name, gold);
-				// SDL_BlitSurface(text, NULL, screen, &(SDL_Rect){210,75+4,0,0});
-				// SDL_FreeSurface(text);
+				GFX_blitWindow(screen, Screen.menu.preview.x, Screen.menu.preview.y, Screen.menu.preview.width, Screen.menu.list.row_height+(Screen.menu.disc.oy*2), 1);
+				GFX_blitText(screen, disc_name, 2, Screen.menu.preview.x+Screen.menu.disc.ox, Screen.menu.list.y+Screen.menu.list.oy, 0, 1, 0);
 			}
 			// slot preview
 			else if (selected==kItemSave || selected==kItemLoad) {

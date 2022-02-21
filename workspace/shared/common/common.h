@@ -311,6 +311,11 @@ typedef struct UnionScreen {
 		} buttons;
 		
 		struct {
+			int ox;
+			int oy;
+		} disc;
+		
+		struct {
 			int x;
 			int y;
 			int width;

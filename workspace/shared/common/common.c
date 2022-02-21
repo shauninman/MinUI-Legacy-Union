@@ -130,6 +130,10 @@ UnionScreen Screen = {
 			.y	= 197,
 			.ox	= 8,
 		},
+		.disc = {
+			.ox = 65,
+			.oy = 4,
+		},
 		.preview = {
 			.x		= 148,
 			.y		= 71,
@@ -301,6 +305,10 @@ void Union_init(void) {
 					.x	= 200*2,
 					.y	= 197*2,
 					.ox	= 8*2,
+				},
+				.disc = {
+					.ox = 65*2,
+					.oy = 4*2,
 				},
 				.preview = {
 					.x		= 148*2,
