@@ -80,8 +80,6 @@ while [ -f /tmp/minui_exec ]; do
 
 	NEXT="$USERDATA_PATH/next.sh"
 	if [ -f $NEXT ]; then
-		sysmon freemma
-
 		CMD=`cat $NEXT`
 		rm -f $NEXT
 		eval $CMD
@@ -89,8 +87,6 @@ while [ -f /tmp/minui_exec ]; do
 		echo `date +'%F %T'` > "$DATETIME_PATH"
 		sync
 	fi
-	
-	sysmon freemma
 done
 
 reboot # just in case
