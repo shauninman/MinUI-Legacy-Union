@@ -12,7 +12,6 @@
 
 #include "msettings.h"
 
-
 ///////////////////////////////////////
 
 typedef struct Settings {
@@ -25,7 +24,7 @@ typedef struct Settings {
 static Settings DefaultSettings = {
 	.version = 1,
 	.brightness = 2,
-	.headphones = 4,
+	.headphones = 4, // unused
 	.speaker = 8,
 };
 static Settings* settings;
@@ -67,6 +66,8 @@ void InitSettings(void) {
 		}
 	}
 	printf("brightness: %i\nspeaker: %i\n", settings->brightness, settings->speaker);
+	SetVolume(GetVolume());
+	SetBrightness(GetBrightness());
 }
 void QuitSettings(void) {
 	munmap(settings, shm_size);
@@ -111,8 +112,8 @@ void SetRawBrightness(int val) {
 		close(fd);
 	}
 }
-void SetRawVolume(int db) {
-	MI_AO_SetVolume(0,db);
+void SetRawVolume(int val) {
+	MI_AO_SetVolume(0,val);
 }
 
 int GetJack(void) {
