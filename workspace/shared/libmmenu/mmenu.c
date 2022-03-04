@@ -540,14 +540,14 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	}
 	
 	// redraw original screen before returning
-	if (status!=kStatusOpenMenu) {
+	// if (status!=kStatusOpenMenu) {
 		// reset all buffers (1 more than triple because it seems to be possible to miss one?)
-		for (int i=0; i<4; i++) {
-			SDL_FillRect(screen, NULL, 0); // TODO: is this still necessary?
+		// for (int i=0; i<4; i++) {
+			SDL_FillRect(screen, NULL, 0);
 			SDL_BlitSurface(copy, NULL, screen, NULL);
 			SDL_Flip(screen);
-		}
-	}
+		// }
+	// }
 
 	SDL_FreeSurface(cache);
 	// NOTE: copy->pixels was manually malloc'd so it must be manually freed too
