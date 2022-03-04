@@ -9,7 +9,6 @@ build/
 -old/
 -test/
 Test/
-picoarch/
 
 batmon
 !batmon/
