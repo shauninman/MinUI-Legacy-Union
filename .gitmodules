@@ -34,3 +34,6 @@
 [submodule "workspace/shared/third-party/pokemini"]
 	path = workspace/shared/third-party/pokemini
 	url = git@github.com:shauninman/pokemini.git
+[submodule "workspace/miyoomini/third-party/picoarch"]
+	path = workspace/miyoomini/third-party/picoarch
+	url = git@github.com:shauninman/picoarch.git
