@@ -1,9 +1,8 @@
 #!/bin/sh
-# /.system/miyoomini/paks/Emus/GBA/launch.sh
+# /.system/miyoomini/paks/Emus/GB/launch.sh
 
-EMU_TAG=GBA
-EMU_EXE=gpsp
-# EMU_EXE=mgba
+EMU_TAG=GBC
+EMU_EXE=gambatte
 
 ROM="$1"
 
@@ -12,4 +11,5 @@ mkdir -p "$SDCARD_PATH/Bios/$EMU_TAG"
 mkdir -p "$SDCARD_PATH/Saves/$EMU_TAG"
 HOME="$USERDATA_PATH"
 cd "$HOME"
+# GFX_BLOCKING=1
 picoarch "$SYSTEM_PATH/lib/retroarch/${EMU_EXE}_libretro.so" "$ROM" LCD &> "$LOGS_PATH/$EMU_TAG.txt"

@@ -38,9 +38,15 @@ miyoomini:
 	cp ./workspace/$@/third-party/SDL-1.2/build/.libs/libSDL-1.2.so.0.11.5 ./build/PAYLOAD/.system/$@/lib/libSDL-1.2.so.0
 	cp ./workspace/shared/third-party/DinguxCommander/output/$@/DinguxCommander ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
 	cp -r ./workspace/shared/third-party/DinguxCommander/res ./build/PAYLOAD/.system/$@/paks/Tools/Commander.pak/
-	cp ./workspace/shared/third-party/gambatte-dms/build/$@/gambatte ./build/PAYLOAD/.system/$@/paks/Emus/GB.pak/
-	cp ./workspace/$@/third-party/picogpsp/picogpsp ./build/PAYLOAD/.system/$@/paks/Emus/GBA.pak/
-	cp ./workspace/shared/third-party/pokemini/platform/miyoomini/pokemini ./build/PAYLOAD/.system/$@/paks/Emus/PKM.pak/
+	cp ./workspace/$@/third-party/picoarch/picoarch ./build/PAYLOAD/.system/$@/bin/
+	cp ./workspace/$@/third-party/picoarch/fceumm_libretro.so ./build/PAYLOAD/.system/$@/lib/retroarch/
+	cp ./workspace/$@/third-party/picoarch/gambatte_libretro.so ./build/PAYLOAD/.system/$@/lib/retroarch/
+	cp ./workspace/$@/third-party/picoarch/gpsp_libretro.so ./build/PAYLOAD/.system/$@/lib/retroarch/
+	cp ./workspace/$@/third-party/picoarch/mgba_libretro.so ./build/PAYLOAD/.system/$@/lib/retroarch/
+	cp ./workspace/$@/third-party/picoarch/pcsx_rearmed_libretro.so ./build/PAYLOAD/.system/$@/lib/retroarch/
+	cp ./workspace/$@/third-party/picoarch/picodrive_libretro.so ./build/PAYLOAD/.system/$@/lib/retroarch/
+	cp ./workspace/$@/third-party/picoarch/pokemini_libretro.so ./build/PAYLOAD/.system/$@/lib/retroarch/
+	cp ./workspace/$@/third-party/picoarch/snes9x2005_plus_libretro.so ./build/PAYLOAD/.system/$@/lib/retroarch/
 	
 shell:
 	make -f toolchain.makefile PLATFORM=$(PLATFORM)
