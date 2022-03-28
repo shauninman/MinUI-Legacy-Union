@@ -34,6 +34,13 @@ killall keymon
 export LD_LIBRARY_PATH="$SYSTEM_PATH/lib:$LD_LIBRARY_PATH"
 export PATH="$SYSTEM_PATH/bin:$PATH"
 
+# EITHER mount shared data without a write cache (bad performance)
+#mount --bind $SHARED_USERDATA_PATH $SHARED_USERDATA_PATH >> $LOGS_PATH/MinUI.txt 2>&1
+#mount -o remount,sync $SHARED_USERDATA_PATH >> $LOGS_PATH/MinUI.txt 2>&1
+
+# OR disable write caching for the whole sd card (even worse performance)
+#mount -o remount,sync $SDCARD_PATH >> $LOGS_PATH/MinUI.txt 2>&1
+
 lumon & # adjust lcd luma and saturation
 
 CHARGING=`cat /sys/devices/gpiochip0/gpio/gpio59/value`
